@@ -12,7 +12,9 @@ export default function DisclaimerGate() {
 
   useEffect(() => {
     const accepted = sessionStorage.getItem(STORAGE_KEY) === "true";
-    if (accepted) setIsOpen(false);
+    if (!accepted) return;
+    const id = requestAnimationFrame(() => setIsOpen(false));
+    return () => cancelAnimationFrame(id);
   }, []);
 
   useEffect(() => {
