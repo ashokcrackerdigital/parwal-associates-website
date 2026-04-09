@@ -7,7 +7,7 @@ const heroSlides = [
   {
     image:
       "https://images.unsplash.com/photo-1553729459-efe14ef6055d?auto=format&fit=crop&w=1920&q=80",
-    eyebrow: "Trusted Financial Partners Since 2010",
+    eyebrow: "Trusted Financial Partners Since 1983",
   },
   {
     image:

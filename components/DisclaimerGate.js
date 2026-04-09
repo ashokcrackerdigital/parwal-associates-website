@@ -1,12 +1,14 @@
 "use client";
 
 import { CircleCheckBig, CircleX, TriangleAlert } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const STORAGE_KEY = "pa_disclaimer_accepted";
 
 export default function DisclaimerGate() {
   const [isOpen, setIsOpen] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     const accepted = sessionStorage.getItem(STORAGE_KEY) === "true";
@@ -27,14 +29,11 @@ export default function DisclaimerGate() {
   const handleAccept = () => {
     sessionStorage.setItem(STORAGE_KEY, "true");
     setIsOpen(false);
+    router.push("/");
   };
 
   const handleCancel = () => {
-    if (window.history.length > 1) {
-      window.history.back();
-      return;
-    }
-    window.location.replace("about:blank");
+    // Keep dialog open until user accepts.
   };
 
   if (!isOpen) return null;
