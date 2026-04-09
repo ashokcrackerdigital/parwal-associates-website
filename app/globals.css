@@ -3,11 +3,22 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand colors */
+  --pa-primary: #175888; /* blue */
+  --pa-secondary: #52b947; /* green */
+  --pa-third: #f47920; /* orange */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  /* Tailwind color tokens */
+  --color-primary: var(--pa-primary);
+  --color-secondary: var(--pa-secondary);
+  --color-third: var(--pa-third);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -23,4 +34,37 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  /* Use these across the site */
+  .text-primary {
+    color: var(--pa-primary);
+  }
+  .bg-primary {
+    background-color: var(--pa-primary);
+  }
+  .border-primary {
+    border-color: var(--pa-primary);
+  }
+
+  .text-secondary {
+    color: var(--pa-secondary);
+  }
+  .bg-secondary {
+    background-color: var(--pa-secondary);
+  }
+  .border-secondary {
+    border-color: var(--pa-secondary);
+  }
+
+  .text-third {
+    color: var(--pa-third);
+  }
+  .bg-third {
+    background-color: var(--pa-third);
+  }
+  .border-third {
+    border-color: var(--pa-third);
+  }
 }
