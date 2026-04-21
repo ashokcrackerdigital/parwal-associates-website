@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { PA_HERO_MIN_HEIGHT } from "../lib/pageHero";
 
 const heroSlides = [
   {
@@ -55,7 +56,9 @@ export default function HeroShowcase() {
   const currentKeyword = rotatingKeywords[activeKeyword];
 
   return (
-    <section className="relative isolate overflow-hidden">
+    <section
+      className={`relative isolate ${PA_HERO_MIN_HEIGHT} overflow-hidden`}
+    >
       {heroSlides.map((slide, index) => (
         <div
           key={slide.image}
@@ -68,14 +71,13 @@ export default function HeroShowcase() {
         />
       ))}
 
-      <div className="absolute inset-0 bg-primary/75" />
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-transparent" />
+      <div className="absolute inset-0 bg-primary/82" aria-hidden />
 
-      <div className="relative mx-auto flex min-h-[72vh] w-full max-w-7xl items-center px-4 py-14 sm:px-6 lg:px-8">
-        <div className="max-w-3xl text-white">
-          <p className="mb-5 inline-flex rounded-full bg-secondary/80 px-4 py-1.5 text-xs font-semibold tracking-wide sm:text-sm">
-            {heroSlides[activeSlide].eyebrow}
-          </p>
+      <div
+        className={`relative z-10 mx-auto flex ${PA_HERO_MIN_HEIGHT} w-full max-w-7xl items-center justify-center px-4 py-14 sm:px-6 lg:px-8`}
+      >
+        <div className="mx-auto max-w-3xl text-center text-white">
+          <p className="pa-hero-eyebrow mb-5">{heroSlides[activeSlide].eyebrow}</p>
 
           <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-5xl">
             Manage Your{" "}
@@ -86,13 +88,13 @@ export default function HeroShowcase() {
             The Right Way
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base text-zinc-100 sm:text-xl">
+          <p className="mx-auto mt-6 max-w-2xl text-base text-zinc-100 sm:text-xl">
             Comprehensive chartered accountancy services for growth-ready
             businesses with sharp execution, compliance confidence, and clear
             financial direction.
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Link
               href="/contact"
               className="rounded-xl bg-third px-7 py-3 text-sm font-semibold text-white transition hover:bg-secondary sm:text-base"

@@ -67,4 +67,42 @@ body {
   .border-third {
     border-color: var(--pa-third);
   }
+
+  /**
+   * Hero kicker / eyebrow — pill on photo heroes (muted green, white text).
+   */
+  .pa-hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 9999px;
+    background-color: color-mix(in srgb, var(--pa-secondary) 75%, #355a32 25%);
+    padding: 0.5rem 1.35rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #ffffff;
+    box-shadow: 0 2px 16px color-mix(in srgb, var(--pa-secondary) 32%, transparent);
+  }
+
+  @media (min-width: 640px) {
+    .pa-hero-eyebrow {
+      font-size: 0.75rem;
+      padding: 0.6rem 1.65rem;
+      letter-spacing: 0.12em;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .pa-hero-eyebrow {
+      font-size: 0.8125rem;
+      padding: 0.65rem 1.85rem;
+    }
+  }
 }

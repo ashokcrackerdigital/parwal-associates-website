@@ -10,6 +10,15 @@ import {
   X,
 } from "lucide-react";
 import { useCallback, useEffect, useId, useState } from "react";
+import {
+  PA_PHOTO_HERO_IMAGE_CLASS,
+  PA_PHOTO_HERO_INNER,
+  PA_PHOTO_HERO_OVERLAY,
+  PA_PHOTO_HERO_SECTION,
+} from "../lib/pageHero";
+
+const TEAM_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2400&q=85";
 
 const KAIZEN_HIGHLIGHTS = [
   "Outsourced CFO services, management reporting, and financial leadership for UAE entities",
@@ -121,20 +130,27 @@ export default function OurTeamContent() {
     <>
       <div className="bg-white">
         <section
-          className="border-b border-primary/10 bg-gradient-to-br from-primary via-[#0f4a6e] to-[#0a3550] py-[3.25rem] pb-14 text-center text-white"
+          className={PA_PHOTO_HERO_SECTION}
           aria-labelledby={titleId}
         >
-          <div className={pageShell}>
-            <p className="text-[0.8125rem] font-bold uppercase tracking-[0.2em] text-[color-mix(in_srgb,white_88%,var(--pa-third)_12%)]">
-              Our people
-            </p>
+          <Image
+            src={TEAM_HERO_IMAGE}
+            alt=""
+            fill
+            priority
+            className={PA_PHOTO_HERO_IMAGE_CLASS}
+            sizes="100vw"
+          />
+          <div className={PA_PHOTO_HERO_OVERLAY} aria-hidden />
+          <div className={PA_PHOTO_HERO_INNER}>
+            <p className="pa-hero-eyebrow mb-4 sm:mb-5">Our people</p>
             <h1
               id={titleId}
-              className="mt-2 font-serif text-[clamp(1.875rem,4vw,2.75rem)] font-bold leading-[1.15] tracking-[-0.02em]"
+              className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
             >
               Meet our expert team
             </h1>
-            <p className="mx-auto mt-4 max-w-2xl text-[1.0625rem] leading-relaxed text-white/80">
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
               Experienced professionals dedicated to clear guidance, ethical
               practice, and outcomes that help your business stay compliant and
               confident.

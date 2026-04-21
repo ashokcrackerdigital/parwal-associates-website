@@ -1,4 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
+import {
+  PA_PHOTO_HERO_IMAGE_CLASS,
+  PA_PHOTO_HERO_INNER,
+  PA_PHOTO_HERO_OVERLAY,
+  PA_PHOTO_HERO_SECTION,
+} from "../../lib/pageHero";
+
+const ABOUT_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2400&q=85";
 
 export const metadata = {
   title: "About Us | Parwal & Associates",
@@ -9,15 +19,22 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <div className="bg-white">
-      <section className="border-b border-primary/10 bg-zinc-50 py-14 sm:py-16">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <p className="text-sm font-semibold uppercase tracking-wide text-secondary">
-            About Us
-          </p>
-          <h1 className="mt-2 text-4xl font-bold text-primary sm:text-5xl">
+      <section className={PA_PHOTO_HERO_SECTION}>
+        <Image
+          src={ABOUT_HERO_IMAGE}
+          alt=""
+          fill
+          priority
+          className={PA_PHOTO_HERO_IMAGE_CLASS}
+          sizes="100vw"
+        />
+        <div className={PA_PHOTO_HERO_OVERLAY} aria-hidden />
+        <div className={PA_PHOTO_HERO_INNER}>
+          <p className="pa-hero-eyebrow mb-4 sm:mb-5">About us</p>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
             Parwal &amp; Associates
           </h1>
-          <p className="mt-4 text-lg text-zinc-600">
+          <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
             A Jaipur-based firm of Chartered Accountants, serving clients across
             India with clarity, ethics, and depth of experience.
           </p>
@@ -55,7 +72,7 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="mt-12 flex flex-wrap gap-4">
+        <div className="mt-12 flex flex-wrap justify-center gap-4">
           <Link
             href="/services"
             className="rounded-xl bg-third px-6 py-3 text-sm font-semibold text-white transition hover:bg-secondary"

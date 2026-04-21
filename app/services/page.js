@@ -1,4 +1,14 @@
+import Image from "next/image";
 import Link from "next/link";
+import {
+  PA_PHOTO_HERO_IMAGE_CLASS,
+  PA_PHOTO_HERO_INNER,
+  PA_PHOTO_HERO_OVERLAY,
+  PA_PHOTO_HERO_SECTION,
+} from "../../lib/pageHero";
+
+const SERVICES_HERO_IMAGE =
+  "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=2400&q=85";
 
 const sections = [
   {
@@ -93,22 +103,28 @@ export const metadata = {
 export default function ServicesPage() {
   return (
     <div className="bg-white">
-      <section className="border-b border-primary/15 bg-zinc-50 py-14">
-        <div className="mx-auto w-full max-w-4xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-wide text-third">
-            What we offer
-          </p>
-          <h1 className="mt-2 text-4xl font-bold text-primary sm:text-5xl">
+      <section className={PA_PHOTO_HERO_SECTION}>
+        <Image
+          src={SERVICES_HERO_IMAGE}
+          alt=""
+          fill
+          priority
+          className={PA_PHOTO_HERO_IMAGE_CLASS}
+          sizes="100vw"
+        />
+        <div className={PA_PHOTO_HERO_OVERLAY} aria-hidden />
+        <div className={PA_PHOTO_HERO_INNER}>
+          <p className="pa-hero-eyebrow mb-4 sm:mb-5">What we offer</p>
+          <h1 className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
             Our Services
           </h1>
-          <div className="mx-auto mt-4 h-1 w-20 rounded-full bg-third" />
-          <p className="mx-auto mt-6 max-w-2xl text-lg text-zinc-600">
+          <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
             Detailed overview of our practice areas. Use the sections below or
             return to the home page anytime.
           </p>
           <Link
             href="/"
-            className="mt-8 inline-block text-sm font-semibold text-secondary hover:text-primary"
+            className="mt-6 inline-flex items-center justify-center rounded-xl bg-third px-7 py-3 text-sm font-semibold text-white transition hover:bg-secondary sm:mt-7 sm:text-base"
           >
             ← Back to Home
           </Link>
