@@ -39,7 +39,7 @@ export default async function BlogPostPage({ params }) {
   return (
     <article className="bg-white">
       <div className="border-b border-zinc-100 bg-zinc-50">
-        <div className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
+        <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
           <Link
             href="/blog"
             className="inline-flex items-center gap-2 text-sm font-semibold text-primary transition hover:text-secondary"
@@ -50,7 +50,7 @@ export default async function BlogPostPage({ params }) {
         </div>
       </div>
 
-      <header className="mx-auto max-w-3xl px-4 pt-10 sm:px-6 sm:pt-14">
+      <header className="mx-auto max-w-4xl px-4 pt-10 sm:px-6 sm:pt-14">
         <p className="text-xs font-semibold uppercase tracking-wide text-secondary">
           {post.categories.join(" · ")}
         </p>
@@ -86,7 +86,7 @@ export default async function BlogPostPage({ params }) {
         </div>
       </div>
 
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 sm:py-16">
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 sm:py-16">
         <p className="text-lg font-medium leading-relaxed text-zinc-700">
           {post.excerpt}
         </p>

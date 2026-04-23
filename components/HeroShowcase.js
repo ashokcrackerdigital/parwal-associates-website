@@ -71,7 +71,7 @@ export default function HeroShowcase() {
         />
       ))}
 
-      <div className="absolute inset-0 bg-primary/82" aria-hidden />
+      <div className="absolute inset-0 bg-primary/68" aria-hidden />
 
       <div
         className={`relative z-10 mx-auto flex ${PA_HERO_MIN_HEIGHT} w-full max-w-7xl items-center justify-center px-4 py-14 sm:px-6 lg:px-8`}

@@ -3,7 +3,6 @@ import HeroShowcase from "../components/HeroShowcase";
 import ServicesPreview from "../components/ServicesPreview";
 import VisionMissionSection from "../components/VisionMissionSection";
 import ContactCtaSection from "../components/ContactCtaSection";
-import WhoWeAreSection from "../components/WhoWeAreSection";
 
 export default function Home() {
   return (
@@ -13,7 +12,6 @@ export default function Home() {
       <VisionMissionSection />
 
       <ServicesPreview />
-      <WhoWeAreSection />
 
       <ContactCtaSection />
     </div>

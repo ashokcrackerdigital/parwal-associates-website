@@ -4,7 +4,6 @@ import Image from "next/image";
 import {
   Award,
   Briefcase,
-  CheckCircle2,
   GraduationCap,
   Ribbon,
   X,
@@ -19,15 +18,6 @@ import {
 
 const TEAM_HERO_IMAGE =
   "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=2400&q=85";
-
-const KAIZEN_HIGHLIGHTS = [
-  "Outsourced CFO services, management reporting, and financial leadership for UAE entities",
-  "UAE tax consultancy — VAT, corporate tax, and FTA-aligned compliance and advisory",
-  "Company formation and business setup across Mainland, Free Zone, and offshore structures",
-  "Accounting, bookkeeping, and end-to-end regulatory support for businesses in the UAE",
-];
-
-const KAIZEN_URL = "https://thekaizen.ae/";
 
 /** Max-width shell for Our Team sections (replaces former .pa-container). */
 const pageShell = "mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8";
@@ -213,154 +203,6 @@ export default function OurTeamContent() {
           </div>
         </section>
 
-        <section
-          className="border-t border-primary/10 bg-gradient-to-br from-zinc-50 via-white to-primary/[0.04] py-12 sm:py-14 lg:py-16"
-          aria-labelledby="intl-collab-heading"
-        >
-          <div className={pageShell}>
-            <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
-              <div className="relative flex min-h-[14rem] flex-col items-center justify-center overflow-hidden rounded-2xl border border-primary/15 bg-white p-8 shadow-[0_22px_50px_-28px_rgba(23,88,136,0.35)]">
-                <div
-                  className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_80%_0%,color-mix(in_srgb,var(--pa-third)_12%,transparent),transparent_55%)]"
-                  aria-hidden
-                />
-                <div className="relative z-[1] flex flex-col items-center gap-4 text-center">
-                  <span className="inline-flex rounded-full bg-third/15 px-3 py-1 text-[0.6875rem] font-extrabold uppercase tracking-[0.14em] text-third">
-                    Dubai · UAE desk
-                  </span>
-                  <a
-                    href={KAIZEN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="relative block transition-opacity hover:opacity-90 focus-visible:rounded-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-                    aria-label="Kaizen Business Consultants — opens in a new tab"
-                  >
-                    <Image
-                      src="/kaizen-logo.png"
-                      alt="Kaizen Business Consultants logo"
-                      width={187}
-                      height={70}
-                      className="h-auto w-[min(100%,220px)] sm:w-[min(100%,260px)]"
-                      priority={false}
-                    />
-                  </a>
-                  <p className="max-w-xs text-xs leading-relaxed text-zinc-600">
-                    Associated partner for clients with Middle East operations,
-                    overseas structures, and cross-border tax questions.
-                  </p>
-                </div>
-              </div>
-
-              <div>
-                <p className="text-sm font-semibold uppercase tracking-wide text-secondary">
-                  International collaboration
-                </p>
-                <h2
-                  id="intl-collab-heading"
-                  className="mt-2 font-serif text-2xl font-bold tracking-tight text-primary sm:text-[1.75rem] lg:text-[2rem]"
-                >
-                  Overseas clients &amp; UAE tax consultancy
-                </h2>
-                <p className="mt-3 text-[1.0625rem] leading-relaxed text-zinc-700">
-                  Parwal &amp; Associates works with{" "}
-                  <a
-                    href={KAIZEN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="font-semibold text-primary underline decoration-third/60 decoration-2 underline-offset-2 hover:text-third"
-                  >
-                    Kaizen Business Consultants
-                  </a>
-                  , a trusted financial and business advisory firm in Dubai, so
-                  our clients receive coordinated support in India and the UAE.
-                </p>
-                <div className="mt-4 space-y-3 text-[0.9375rem] leading-relaxed text-zinc-600">
-                  <p>
-                    Kaizen helps companies navigate accounting, tax, and
-                    compliance in the UAE—with certified professionals and deep
-                    experience in outsourced CFO services, VAT and corporate tax,
-                    and hassle-free business setup. Information on their practice is
-                    summarised from their public website at{" "}
-                    <a
-                      href={KAIZEN_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-primary underline underline-offset-2 hover:text-third"
-                    >
-                      thekaizen.ae
-                    </a>
-                    .
-                  </p>
-                  <p>
-                    Whether you are expanding from India into the UAE, need a
-                    reliable Dubai desk for reporting and filings, or want aligned
-                    advice on international tax and corporate matters, we
-                    facilitate a single, professional line of contact between
-                    Jaipur and Dubai—including where our senior leadership serves
-                    as an advisor to Kaizen.
-                  </p>
-                </div>
-
-                <ul className="mt-5 flex list-none flex-col gap-2.5 p-0">
-                  {KAIZEN_HIGHLIGHTS.map((item) => (
-                    <li key={item} className="flex gap-2.5 text-[0.9375rem] leading-snug text-zinc-700">
-                      <CheckCircle2
-                        className="mt-0.5 h-5 w-5 shrink-0 text-secondary"
-                        strokeWidth={2.25}
-                        aria-hidden
-                      />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-6 flex flex-wrap items-center gap-3 sm:gap-4">
-                  <a
-                    href={KAIZEN_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-full bg-third px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-third/25 transition hover:bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                  >
-                    Visit Kaizen — Dubai
-                  </a>
-                  <a
-                    href="/contact"
-                    className="text-sm font-bold text-primary underline decoration-primary/30 underline-offset-4 hover:text-third"
-                  >
-                    Speak to us in Jaipur
-                  </a>
-                </div>
-
-                <div className="mt-7 rounded-xl border border-primary/15 bg-primary/[0.04] p-4 text-sm leading-relaxed text-zinc-600">
-                  <p>
-                    <strong className="font-bold text-primary">Kaizen</strong> —
-                    Gulf Towers, Oud Metha, Dubai, UAE
-                  </p>
-                  <p className="mt-2">
-                    Phone:{" "}
-                    <a
-                      href="tel:+971509312312"
-                      className="font-bold text-primary underline underline-offset-2 hover:text-third"
-                    >
-                      +971 50 931 2312
-                    </a>
-                    {" · "}
-                    <a
-                      href="mailto:hello@thekaizen.ae"
-                      className="font-bold text-primary underline underline-offset-2 hover:text-third"
-                    >
-                      hello@thekaizen.ae
-                    </a>
-                  </p>
-                  <p className="mt-2 text-xs text-zinc-500">
-                    Office hours (UAE): weekdays including Saturday, 8:30am –
-                    5:30pm — confirm on their site before visiting.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
 
       {openMember && (
@@ -514,8 +356,8 @@ function ModalBhupesh() {
           <p>
             His proficiency is especially known for direct tax and investment
             advisory. He advises large corporate groups in India, is associated
-            with tax and audit professional associations, and is a Senior Advisor
-            to Kaizen Business Consultants (a UAE-based business advisory firm).
+            with tax and audit professional associations, and actively mentors
+            teams on practical financial decision-making.
           </p>
         </div>
       </div>
