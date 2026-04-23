@@ -122,7 +122,7 @@ export default function ContactPageContent() {
               const content = (
                 <>
                   <div
-                    className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${card.iconWrap}`}
+                    className={`inline-flex h-12 w-12 items-center justify-center self-center rounded-xl ${card.iconWrap} sm:self-start`}
                   >
                     <Icon className="h-6 w-6" strokeWidth={2} aria-hidden />
                   </div>
@@ -137,7 +137,7 @@ export default function ContactPageContent() {
                 </>
               );
               const className =
-                "rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm shadow-zinc-200/60 transition hover:shadow-md";
+                "rounded-2xl border border-zinc-100 bg-white p-6 text-center shadow-sm shadow-zinc-200/60 transition hover:shadow-md sm:text-left";
               if (card.href) {
                 return (
                   <li key={card.title}>

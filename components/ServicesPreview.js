@@ -94,10 +94,10 @@ export default function ServicesPreview() {
             return (
               <article
                 key={item.slug}
-                className="group flex flex-col rounded-2xl border border-primary/10 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:border-secondary/30 hover:shadow-lg"
+                className="group flex flex-col rounded-2xl border border-primary/10 bg-white p-6 text-center shadow-sm transition hover:-translate-y-1 hover:border-secondary/30 hover:shadow-lg sm:text-left"
               >
                 <div
-                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${item.iconBg}`}
+                  className={`mb-4 inline-flex h-12 w-12 items-center justify-center self-center rounded-xl ${item.iconBg} sm:self-start`}
                 >
                   <Icon className={`h-6 w-6 ${item.iconClass}`} />
                 </div>
@@ -107,7 +107,7 @@ export default function ServicesPreview() {
                 </p>
                 <Link
                   href={`/services#${item.slug}`}
-                  className={`mt-5 inline-flex items-center gap-1 text-sm font-semibold ${item.linkClass}`}
+                  className={`mt-5 inline-flex items-center justify-center gap-1 self-center text-sm font-semibold ${item.linkClass} sm:self-start`}
                 >
                   Learn More <span aria-hidden>→</span>
                 </Link>

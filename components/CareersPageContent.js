@@ -302,10 +302,10 @@ export default function CareersPageContent() {
               return (
                 <li
                   key={card.title}
-                  className="rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm shadow-zinc-200/50 transition hover:shadow-md"
+                  className="rounded-2xl border border-zinc-100 bg-white p-6 text-center shadow-sm shadow-zinc-200/50 transition hover:shadow-md sm:text-left"
                 >
                   <div
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-secondary to-primary text-white shadow-md shadow-primary/20"
+                    className="inline-flex h-12 w-12 items-center justify-center self-center rounded-xl bg-gradient-to-br from-secondary to-primary text-white shadow-md shadow-primary/20 sm:self-start"
                     aria-hidden
                   >
                     <Icon className="h-6 w-6" strokeWidth={2} />
