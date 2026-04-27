@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
 import { Clock, Mail, MapPin, Phone, Send } from "lucide-react";
 import {
   PA_PHOTO_HERO_IMAGE_CLASS,
@@ -13,31 +12,15 @@ import {
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=85";
 
-const LOCATIONS = {
-  jaipur: {
-    id: "jaipur",
-    label: "Jaipur",
-    shortLabel: "Jaipur",
-    headline: "Head office — Jaipur",
-    description:
-      "Our registered office and primary practice in the heart of Rajasthan. Visit us for consultations, filings, and advisory.",
-    addressLines: ["Jaipur, Rajasthan, India"],
-    mapEmbedSrc:
-      "https://maps.google.com/maps?q=Jaipur%2C+Rajasthan%2C+India&z=14&output=embed",
-    mapTitle: "Parwal & Associates — Jaipur",
-  },
-  dubai: {
-    id: "dubai",
-    label: "Partner Dubai",
-    shortLabel: "Dubai",
-    headline: "Partner office — Dubai",
-    description:
-      "International and regional matters are coordinated through our partner presence in the UAE. Reach out to book a discussion.",
-    addressLines: ["Dubai, United Arab Emirates"],
-    mapEmbedSrc:
-      "https://maps.google.com/maps?q=Dubai%2C+United+Arab+Emirates&z=11&output=embed",
-    mapTitle: "Partner liaison — Dubai",
-  },
+const LOCATION = {
+  id: "jaipur",
+  headline: "Head office — Jaipur",
+  description:
+    "Our registered office and primary practice in the heart of Rajasthan. Visit us for consultations, filings, and advisory.",
+  addressLines: ["Jaipur, Rajasthan, India"],
+  mapEmbedSrc:
+    "https://maps.google.com/maps?q=Jaipur%2C+Rajasthan%2C+India&z=14&output=embed",
+  mapTitle: "Parwal & Associates — Jaipur",
 };
 
 const infoCards = [
@@ -54,7 +37,6 @@ const infoCards = [
     iconWrap: "bg-secondary/15 text-secondary",
     lines: [
       "parwalandasociates@gmail.com",
-      "Parwal_associates@rediffmail.com",
     ],
     href: "mailto:parwalandasociates@gmail.com",
   },
@@ -73,8 +55,7 @@ const infoCards = [
 ];
 
 export default function ContactPageContent() {
-  const [activeLocation, setActiveLocation] = useState("jaipur");
-  const location = LOCATIONS[activeLocation];
+  const location = LOCATION;
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -117,9 +98,8 @@ export default function ContactPageContent() {
             Contact Us
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
-            We are here to help with tax, audit, and advisory. Reach out from
-            Jaipur or connect regarding our Dubai partner desk — we respond
-            during business hours.
+            We are here to help with tax, audit, and advisory. Reach out to our
+            Jaipur office and we will respond during business hours.
           </p>
         </div>
       </section>
@@ -142,7 +122,7 @@ export default function ContactPageContent() {
               const content = (
                 <>
                   <div
-                    className={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${card.iconWrap}`}
+                    className={`inline-flex h-12 w-12 items-center justify-center self-center rounded-xl ${card.iconWrap} sm:self-start`}
                   >
                     <Icon className="h-6 w-6" strokeWidth={2} aria-hidden />
                   </div>
@@ -157,7 +137,7 @@ export default function ContactPageContent() {
                 </>
               );
               const className =
-                "rounded-2xl border border-zinc-100 bg-white p-6 shadow-sm shadow-zinc-200/60 transition hover:shadow-md";
+                "rounded-2xl border border-zinc-100 bg-white p-6 text-center shadow-sm shadow-zinc-200/60 transition hover:shadow-md sm:text-left";
               if (card.href) {
                 return (
                   <li key={card.title}>
@@ -294,43 +274,12 @@ export default function ContactPageContent() {
                 Visit our office
               </h2>
               <p className="mt-3 text-zinc-600">
-                Switch between our Jaipur head office and Dubai partner desk.
-                The map updates for each location.
+                Our Jaipur head office location and map are listed below.
               </p>
-
-              <div
-                className="mt-8 flex flex-wrap gap-2 rounded-2xl border border-zinc-200 bg-zinc-100/80 p-1.5"
-                role="tablist"
-                aria-label="Office location"
-              >
-                {Object.keys(LOCATIONS).map((key) => {
-                  const loc = LOCATIONS[key];
-                  const selected = activeLocation === key;
-                  return (
-                    <button
-                      key={key}
-                      type="button"
-                      role="tab"
-                      aria-selected={selected}
-                      id={`tab-${loc.id}`}
-                      aria-controls={`panel-${loc.id}`}
-                      onClick={() => setActiveLocation(key)}
-                      className={`min-h-[44px] flex-1 rounded-xl px-4 py-2.5 text-sm font-semibold transition sm:flex-none sm:px-6 ${
-                        selected
-                          ? "bg-primary text-white shadow-md shadow-primary/25"
-                          : "text-zinc-700 hover:bg-white hover:text-primary"
-                      }`}
-                    >
-                      {loc.label}
-                    </button>
-                  );
-                })}
-              </div>
 
               <div
                 id={`panel-${location.id}`}
                 role="tabpanel"
-                aria-labelledby={`tab-${location.id}`}
                 className="mt-6 space-y-4"
               >
                 <div className="rounded-2xl border border-zinc-100 bg-primary p-6 text-white shadow-lg shadow-primary/20">

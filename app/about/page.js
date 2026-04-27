@@ -10,6 +10,14 @@ import {
 const ABOUT_HERO_IMAGE =
   "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2400&q=85";
 
+const CORE_SERVICES = [
+  "Direct and indirect taxation (Income Tax, Customs Duty, GST, and local taxes)",
+  "Accounts and auditing services including internal, statutory/tax, and concurrent audits",
+  "Management consultancy including MIS, system audit, environmental audit, and social audit",
+  "Project financing, corporate advisory, business advisory, arbitration, and company law matters",
+  "International taxation and FEMA consultancy support",
+];
+
 export const metadata = {
   title: "About Us | Parwal & Associates",
   description:
@@ -41,35 +49,56 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
-        <div className="space-y-8 text-base leading-8 text-zinc-700">
+      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
+        <div className="space-y-7 text-base leading-8 text-zinc-700">
           <p>
-            Parwal and Associates is a firm of Chartered Accountants in practice
-            since <strong className="text-primary">1983</strong>. We are engaged
-            in providing specialised services in direct and indirect taxes levied
-            by the Government of India, State governments, and local
-            authorities—including Income Tax, Customs Duty, GST, and other local
-            taxes.
+            Parwal and Associates is a Jaipur-based firm of Chartered
+            Accountants in practice since{" "}
+            <strong className="text-primary">1983</strong>. We are engaged in
+            providing specialized services in direct and indirect taxes levied by
+            the Government of India, various state governments, and local
+            authorities.
           </p>
           <p>
-            Our firm is extensively engaged in accounts and auditing services,
-            including internal audit, statutory and tax audit, continuous and
-            concurrent audits, and information system audit. Our management
-            consultancy offerings include MIS, system audit, environmental audit,
-            and social audit.
+            These include Income Tax, Customs Duty, GST, and other local taxes.
+            Besides taxation, our firm is extensively engaged in accounts and
+            auditing services including internal audit, statutory and tax audit,
+            and concurrent audits.
           </p>
           <p>
-            We also support legal and regulatory matters such as project
-            financing, corporate and business advisory, arbitration, international
-            taxation, FEMA consultancy, and company law.
+            Our management consultancy services include MIS, system audit,
+            environmental audit, and social audit. We also provide advisory and
+            legal compliance support for project financing, corporate advisory,
+            business advisory, arbitration, international taxation, FEMA
+            consultancy, and company law matters.
           </p>
           <p>
-            We believe in educating clients for proper compliance, keeping them
-            updated on changes in law, and sharing sector-specific insights so
-            they can run their businesses more efficiently. Since our foundation, we
-            have been guided by professional ethics and a commitment to dependable
-            service.
+            We believe in educating clients to ensure proper legal compliance.
+            Clients are regularly updated on recent changes in law, and we share
+            sector-specific research to help them make business decisions more
+            efficiently.
           </p>
+          <p>
+            As a firm, we have developed a niche in advising clients on crucial
+            and complex business decisions. We endeavor to work in a dynamic
+            environment and deliver dependable, high-quality professional service.
+            Ever since our foundation, Parwal &amp; Associates has been guided by
+            a strong code of conduct and high professional ethics.
+          </p>
+        </div>
+
+        <div className="mt-10 rounded-2xl border border-primary/15 bg-zinc-50 p-6 sm:p-8">
+          <h2 className="text-2xl font-bold text-primary sm:text-3xl">
+            Our core service areas
+          </h2>
+          <ul className="mt-5 space-y-3 text-sm leading-7 text-zinc-700 sm:text-base">
+            {CORE_SERVICES.map((service) => (
+              <li key={service} className="flex gap-3">
+                <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-secondary" />
+                <span>{service}</span>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-12 flex flex-wrap justify-center gap-4">

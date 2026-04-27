@@ -28,11 +28,11 @@ const rotatingKeywords = [
   "Audit",
   "Bookkeeping",
   "Variance Analysis",
-  "Financial Statements",
+  "Financials",
   "Balance Sheet",
   "Forensic Account",
   "Income Statement",
-  "Accounting Standard",
+  "Accounting",
 ];
 
 export default function HeroShowcase() {
@@ -71,7 +71,7 @@ export default function HeroShowcase() {
         />
       ))}
 
-      <div className="absolute inset-0 bg-primary/82" aria-hidden />
+      <div className="absolute inset-0 bg-primary/68" aria-hidden />
 
       <div
         className={`relative z-10 mx-auto flex ${PA_HERO_MIN_HEIGHT} w-full max-w-7xl items-center justify-center px-4 py-14 sm:px-6 lg:px-8`}
@@ -81,7 +81,7 @@ export default function HeroShowcase() {
 
           <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-5xl">
             Manage Your{" "}
-            <span className="inline-block whitespace-nowrap text-secondary transition-all duration-500">
+            <span className="inline-block text-secondary transition-all duration-500 sm:whitespace-nowrap">
               {currentKeyword}
             </span>
             <br />
@@ -94,16 +94,16 @@ export default function HeroShowcase() {
             financial direction.
           </p>
 
-          <div className="mt-8 flex flex-wrap justify-center gap-4">
+          <div className="mt-8 flex w-full max-w-sm flex-col gap-4 sm:max-w-none sm:flex-row sm:justify-center">
             <Link
               href="/contact"
-              className="rounded-xl bg-third px-7 py-3 text-sm font-semibold text-white transition hover:bg-secondary sm:text-base"
+              className="w-full rounded-xl bg-third px-7 py-3 text-center text-sm font-semibold text-white transition hover:bg-secondary sm:w-auto sm:text-base"
             >
               Contact Us
             </Link>
             <Link
               href="/services"
-              className="rounded-xl border border-white px-7 py-3 text-sm font-semibold text-white transition hover:border-secondary hover:text-secondary sm:text-base"
+              className="w-full rounded-xl border border-white px-7 py-3 text-center text-sm font-semibold text-white transition hover:border-secondary hover:text-secondary sm:w-auto sm:text-base"
             >
               Explore Services
             </Link>

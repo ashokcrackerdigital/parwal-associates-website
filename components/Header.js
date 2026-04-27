@@ -26,15 +26,15 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-primary bg-white/95 backdrop-blur">
-      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 md:py-4 lg:py-5 lg:px-8">
         <Link href="/" className="flex items-center" aria-label="Parwal and Associates home">
           <Image
-            src="/logo1.png"
+            src="/logo1-removeBg.png"
             alt="Parwal & Associates logo"
             width={520}
             height={112}
             priority
-            className="h-10 w-auto sm:h-12"
+            className="h-10 w-auto sm:h-12 md:h-14 lg:h-16"
           />
         </Link>
 
@@ -44,7 +44,7 @@ export default function Header() {
               key={item.label}
               href={item.href}
               className={[
-                "text-sm font-semibold transition-colors hover:text-secondary",
+                "text-sm font-semibold transition-colors hover:text-secondary md:text-[15px] md:font-bold",
                 isActivePath(item.href)
                   ? "border-b-2 border-primary pb-1 text-primary"
                   : "text-zinc-700",
@@ -59,7 +59,7 @@ export default function Header() {
         <div className="hidden md:block">
           <Link
             href="/contact"
-            className="rounded-xl bg-third px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-secondary"
+            className="rounded-xl bg-third px-6 py-2 text-sm font-semibold text-white transition-colors hover:bg-secondary md:px-7 md:py-2.5 md:text-[15px] md:font-bold"
           >
             Contact Us
           </Link>

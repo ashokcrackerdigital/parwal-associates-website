@@ -3,7 +3,7 @@ import ContactPageContent from "../../components/ContactPageContent";
 export const metadata = {
   title: "Contact | Parwal & Associates",
   description:
-    "Contact Parwal & Associates in Jaipur or reach our Dubai partner desk. Phone, email, map, and enquiry form.",
+    "Contact Parwal & Associates in Jaipur. Phone, email, office map, and enquiry form.",
 };
 
 export default function ContactPage() {

@@ -53,7 +53,8 @@ export default function BlogPageContent() {
 
       {/* Intro */}
       <section className="border-b border-zinc-100 bg-zinc-50 py-12 sm:py-14">
-        <div className="mx-auto max-w-4xl px-4 text-center sm:px-6">
+        <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-4xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-secondary">
             Parwal &amp; Associates
           </p>
@@ -64,6 +65,7 @@ export default function BlogPageContent() {
             Articles our team prepares for clients and colleagues — clear,
             current, and grounded in decades of experience since 1983.
           </p>
+          </div>
         </div>
       </section>
 
