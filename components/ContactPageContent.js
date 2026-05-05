@@ -19,7 +19,7 @@ const LOCATION = {
     "Our registered office and primary practice in the heart of Rajasthan. Visit us for consultations, filings, and advisory.",
   addressLines: ["Jaipur, Rajasthan, India"],
   mapEmbedSrc:
-    "https://maps.google.com/maps?q=Jaipur%2C+Rajasthan%2C+India&z=14&output=embed",
+    "https://maps.google.com/maps?q=26.9145389,75.8045339&z=18&output=embed",
   mapTitle: "Parwal & Associates — Jaipur",
 };
 
@@ -36,9 +36,9 @@ const infoCards = [
     icon: Mail,
     iconWrap: "bg-secondary/15 text-secondary",
     lines: [
-      "parwalandasociates@gmail.com",
+      "parwalandassociates@gmail.com",
     ],
-    href: "mailto:parwalandasociates@gmail.com",
+    href: "mailto:parwalandassociates@gmail.com",
   },
   {
     title: "Jaipur office",
@@ -56,6 +56,7 @@ const infoCards = [
 
 export default function ContactPageContent() {
   const location = LOCATION;
+  const emailHref = "mailto:parwalandassociates@gmail.com";
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -73,7 +74,7 @@ export default function ContactPageContent() {
       "",
       message,
     ].join("\n");
-    const mailto = `mailto:parwalandasociates@gmail.com?subject=${encodeURIComponent(
+    const mailto = `${emailHref}?subject=${encodeURIComponent(
       subject || "Website enquiry"
     )}&body=${encodeURIComponent(body)}`;
     window.location.href = mailto;
@@ -141,7 +142,19 @@ export default function ContactPageContent() {
               if (card.href) {
                 return (
                   <li key={card.title}>
-                    <a href={card.href} className={`block ${className}`}>
+                    <a
+                      href={card.href}
+                      className={`block ${className}`}
+                      onClick={
+                        card.title === "Email"
+                          ? (e) => {
+                              // Fallback for browsers that ignore nested mailto taps.
+                              e.preventDefault();
+                              window.location.href = emailHref;
+                            }
+                          : undefined
+                      }
+                    >
                       {content}
                     </a>
                   </li>
@@ -307,7 +320,7 @@ export default function ContactPageContent() {
                       0141-4006702
                     </a>
                     <a
-                      href="mailto:parwalandasociates@gmail.com"
+                      href={emailHref}
                       className="inline-flex items-center gap-2 rounded-lg bg-white/15 px-3 py-2 transition hover:bg-white/25"
                     >
                       <Mail className="h-4 w-4 text-third" aria-hidden />

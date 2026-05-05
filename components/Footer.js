@@ -34,7 +34,7 @@ const usefulLinks = [
   { label: "ICSI", href: "https://www.icsi.edu/" },
   { label: "ICMAI", href: "https://icmai.in/" },
   { label: "Reserve Bank of India", href: "https://www.rbi.org.in/" },
-  { label: "Ministry of Finance", href: "https://www.finmin.nic.in/" },
+  { label: "Ministry of Finance", href: "https://financialservices.gov.in/beta/en" },
   { label: "Income Tax Portal (CBDT)", href: "https://www.incometax.gov.in/" },
   { label: "CAG India", href: "https://cag.gov.in/" },
   { label: "SEBI", href: "https://www.sebi.gov.in/" },
@@ -77,11 +77,11 @@ export default function Footer() {
                 <span>0141-4006702</span>
               </a>
               <a
-                href="mailto:parwalandasociates@gmail.com"
+                href="mailto:parwalandassociates@gmail.com"
                 className="flex items-start gap-3 break-all transition hover:text-secondary"
               >
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-third" />
-                <span>parwalandasociates@gmail.com</span>
+                <span>parwalandassociates@gmail.com</span>
               </a>
             </div>
           </div>
