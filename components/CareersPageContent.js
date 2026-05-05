@@ -105,28 +105,6 @@ export default function CareersPageContent() {
     if (!get("gender")) e.gender = "This field is required.";
     if (!get("city")) e.city = "City/town/village field is required.";
 
-    if (!get("itCompletionDate")) e.itCompletionDate = "This field is required.";
-    if (!fileChosen(form.elements.namedItem("itCertificate")))
-      e.itCertificate = "This field is required";
-
-    if (!get("ocCompletionDate")) e.ocCompletionDate = "This field is required.";
-    if (!fileChosen(form.elements.namedItem("ocCertificate")))
-      e.ocCertificate = "This field is required";
-
-    if (!get("intermediateMarks")) e.intermediateMarks = "Marks field is required.";
-    if (!fileChosen(form.elements.namedItem("intermediateCertificate")))
-      e.intermediateCertificate = "This field is required";
-
-    if (!get("intermediateYear")) e.intermediateYear = "This field is required.";
-    if (!get("intermediateMonth")) e.intermediateMonth = "This field is required.";
-
-    if (!get("foundationMarks")) e.foundationMarks = "Marks field is required.";
-    if (!fileChosen(form.elements.namedItem("foundationCertificate")))
-      e.foundationCertificate = "This field is required";
-
-    if (!fileChosen(form.elements.namedItem("profilePhoto")))
-      e.profilePhoto = "This field is required";
-
     if (!fileChosen(form.elements.namedItem("resume")))
       e.resume = "Resume file is required.";
 
@@ -142,8 +120,6 @@ export default function CareersPageContent() {
 
     const get = (name) =>
       String(form.elements.namedItem(name)?.value ?? "").trim();
-    const itStatus = get("itTraining");
-    const ocStatus = get("ocTraining");
 
     const lines = [
       "Application type: Articleship",
@@ -153,30 +129,13 @@ export default function CareersPageContent() {
       `Gender: ${get("gender")}`,
       `City/Town/Village: ${get("city")}`,
       "",
-      `IT Training: ${itStatus === "completed" ? "Completed" : "Expected completion"}`,
-      `IT completion date: ${get("itCompletionDate")}`,
-      `IT certificate: ${form.elements.namedItem("itCertificate")?.files?.[0]?.name || ""}`,
-      "",
-      `OC Training: ${ocStatus === "completed" ? "Completed" : "Expected completion"}`,
-      `OC completion date: ${get("ocCompletionDate")}`,
-      `OC certificate: ${form.elements.namedItem("ocCertificate")?.files?.[0]?.name || ""}`,
-      "",
-      `Intermediate aggregate marks: ${get("intermediateMarks")}`,
-      `Intermediate certificate: ${form.elements.namedItem("intermediateCertificate")?.files?.[0]?.name || ""}`,
-      `Year of passing (intermediate): ${get("intermediateYear")}`,
-      `Month of passing (intermediate): ${get("intermediateMonth")}`,
-      "",
-      `Foundation score / marks: ${get("foundationMarks")}`,
-      `Foundation certificate: ${form.elements.namedItem("foundationCertificate")?.files?.[0]?.name || ""}`,
-      "",
-      `Profile photo: ${form.elements.namedItem("profilePhoto")?.files?.[0]?.name || ""}`,
       `Resume: ${form.elements.namedItem("resume")?.files?.[0]?.name || ""}`,
     ];
 
     openCareersMailto(
       "Career application — Articleship",
       lines,
-      "Attach: IT certificate, OC certificate, intermediate marksheet, foundation marksheet, profile photo, and resume."
+      "Attach your resume before sending."
     );
   }
 
@@ -274,9 +233,9 @@ export default function CareersPageContent() {
             Build your career with us
           </h1>
           <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-white/90 sm:text-xl">
-            Join a team of passionate professionals committed to excellence,
-            ethics, and growth — from articleship to experienced hires and firm
-            partnerships.
+            Join a team of driven professionals dedicated to excellence,
+            integrity, and continuous growth — offering opportunities from
+            articleship to experienced roles and strategic firm partnerships.
           </p>
         </div>
       </section>
@@ -440,229 +399,18 @@ export default function CareersPageContent() {
                   <ErrorText message={artErrors.city} />
                 </label>
 
-                {/* IT Training */}
-                <div className="rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6">
-                  <h3 className="text-base font-bold text-primary">IT training</h3>
-                  <fieldset className="mt-4">
-                    <legend className="sr-only">IT training status</legend>
-                    <div className="flex flex-wrap gap-6">
-                      <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-zinc-700">
-                        <input
-                          type="radio"
-                          name="itTraining"
-                          value="completed"
-                          defaultChecked
-                          className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
-                        />
-                        Completed
-                      </label>
-                      <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-zinc-700">
-                        <input
-                          type="radio"
-                          name="itTraining"
-                          value="expected"
-                          className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
-                        />
-                        Expected completion
-                      </label>
-                    </div>
-                  </fieldset>
-                  <label className="mt-4 block max-w-md">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Completion date <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="itCompletionDate"
-                      type="date"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={artErrors.itCompletionDate} />
-                  </label>
-                  <label className="mt-4 block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Upload certificate/marksheet <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="itCertificate"
-                      type="file"
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      className={`mt-2 ${fileInputClass}`}
-                    />
-                    <ErrorText message={artErrors.itCertificate} />
-                  </label>
-                </div>
-
-                {/* OC Training */}
-                <div className="rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6">
-                  <h3 className="text-base font-bold text-primary">OC training</h3>
-                  <fieldset className="mt-4">
-                    <legend className="sr-only">OC training status</legend>
-                    <div className="flex flex-wrap gap-6">
-                      <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-zinc-700">
-                        <input
-                          type="radio"
-                          name="ocTraining"
-                          value="completed"
-                          defaultChecked
-                          className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
-                        />
-                        Completed
-                      </label>
-                      <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-zinc-700">
-                        <input
-                          type="radio"
-                          name="ocTraining"
-                          value="expected"
-                          className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
-                        />
-                        Expected completion
-                      </label>
-                    </div>
-                  </fieldset>
-                  <label className="mt-4 block max-w-md">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Completion date <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="ocCompletionDate"
-                      type="date"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={artErrors.ocCompletionDate} />
-                  </label>
-                  <label className="mt-4 block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Upload certificate/marksheet <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="ocCertificate"
-                      type="file"
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      className={`mt-2 ${fileInputClass}`}
-                    />
-                    <ErrorText message={artErrors.ocCertificate} />
-                  </label>
-                </div>
-
-                {/* Intermediate */}
-                <div className="rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6">
-                  <h3 className="text-base font-bold text-primary">
-                    Intermediate aggregate score
-                  </h3>
-                  <div className="mt-4 grid gap-6 sm:grid-cols-2">
-                    <label className="block">
-                      <span className="text-sm font-semibold text-zinc-800">
-                        Marks <span className="text-third">*</span>
-                      </span>
-                      <input
-                        name="intermediateMarks"
-                        type="text"
-                        inputMode="decimal"
-                        className={`mt-2 ${inputClass}`}
-                      />
-                      <ErrorText message={artErrors.intermediateMarks} />
-                    </label>
-                    <label className="block sm:col-span-2">
-                      <span className="text-sm font-semibold text-zinc-800">
-                        Upload certificate/marksheet <span className="text-third">*</span>
-                      </span>
-                      <input
-                        name="intermediateCertificate"
-                        type="file"
-                        accept=".pdf,.jpg,.jpeg,.png"
-                        className={`mt-2 ${fileInputClass}`}
-                      />
-                      <ErrorText message={artErrors.intermediateCertificate} />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm font-semibold text-zinc-800">
-                        Year of passing <span className="text-third">*</span>
-                      </span>
-                      <input
-                        name="intermediateYear"
-                        type="number"
-                        min="1990"
-                        max="2035"
-                        placeholder="e.g. 2022"
-                        className={`mt-2 ${inputClass}`}
-                      />
-                      <ErrorText message={artErrors.intermediateYear} />
-                    </label>
-                    <label className="block">
-                      <span className="text-sm font-semibold text-zinc-800">
-                        Month of passing <span className="text-third">*</span>
-                      </span>
-                      <select
-                        name="intermediateMonth"
-                        className={`mt-2 ${inputClass}`}
-                        defaultValue=""
-                      >
-                        {MONTHS.map((m) => (
-                          <option key={m.value || "empty"} value={m.value}>
-                            {m.label}
-                          </option>
-                        ))}
-                      </select>
-                      <ErrorText message={artErrors.intermediateMonth} />
-                    </label>
-                  </div>
-                </div>
-
-                {/* Foundation */}
-                <div className="rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6">
-                  <h3 className="text-base font-bold text-primary">Foundation score</h3>
-                  <label className="mt-4 block max-w-md">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Marks <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="foundationMarks"
-                      type="text"
-                      inputMode="decimal"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={artErrors.foundationMarks} />
-                  </label>
-                  <label className="mt-4 block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Upload certificate/marksheet <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="foundationCertificate"
-                      type="file"
-                      accept=".pdf,.jpg,.jpeg,.png"
-                      className={`mt-2 ${fileInputClass}`}
-                    />
-                    <ErrorText message={artErrors.foundationCertificate} />
-                  </label>
-                </div>
-
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Profile <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="profilePhoto"
-                      type="file"
-                      accept=".jpg,.jpeg,.png"
-                      className={`mt-2 ${fileInputClass}`}
-                    />
-                    <ErrorText message={artErrors.profilePhoto} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Upload CV / resume <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="resume"
-                      type="file"
-                      accept=".pdf,.doc,.docx"
-                      className={`mt-2 ${fileInputClass}`}
-                    />
-                    <ErrorText message={artErrors.resume} />
-                  </label>
-                </div>
+                <label className="block">
+                  <span className="text-sm font-semibold text-zinc-800">
+                    Upload CV / resume <span className="text-third">*</span>
+                  </span>
+                  <input
+                    name="resume"
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    className={`mt-2 ${fileInputClass}`}
+                  />
+                  <ErrorText message={artErrors.resume} />
+                </label>
 
                 <button
                   type="submit"

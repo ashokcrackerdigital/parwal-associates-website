@@ -50,7 +50,7 @@ export default function AboutPage() {
       </section>
 
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
-        <div className="space-y-7 text-base leading-8 text-zinc-700">
+        <div className="space-y-7 text-base leading-8 text-zinc-700 text-justify">
           <p>
             Parwal and Associates is a Jaipur-based firm of Chartered
             Accountants in practice since{" "}
@@ -61,9 +61,9 @@ export default function AboutPage() {
           </p>
           <p>
             These include Income Tax, Customs Duty, GST, and other local taxes.
-            Besides taxation, our firm is extensively engaged in accounts and
-            auditing services including internal audit, statutory and tax audit,
-            and concurrent audits.
+            Besides taxation, our firm is extensively engaged in auditing
+            services including internal audit, statutory and tax audit, and
+            concurrent audits.
           </p>
           <p>
             Our management consultancy services include MIS, system audit,

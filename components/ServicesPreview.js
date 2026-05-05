@@ -17,7 +17,7 @@ const services = [
     icon: FileBarChart,
     iconBg: "bg-primary/15",
     iconClass: "text-primary",
-    linkClass: "text-primary hover:text-secondary",
+    linkClass: "text-secondary hover:text-third",
   },
   {
     title: "Taxation",
@@ -47,7 +47,7 @@ const services = [
     icon: Users,
     iconBg: "bg-primary/15",
     iconClass: "text-primary",
-    linkClass: "text-primary hover:text-secondary",
+    linkClass: "text-secondary hover:text-third",
   },
   {
     title: "Corporate Matters",

@@ -42,7 +42,7 @@ const sections = [
   },
   {
     id: "taxation",
-    title: "Taxation",
+    title: "Direct Taxation",
     intro:
       "Taxation being a highly specialized area and frequently changing subject requires skills relating to tax planning, documentation and representations. We provide under-mentioned services to our clients:",
     blocks: [
@@ -63,7 +63,7 @@ const sections = [
           "Advisory on International Taxation and Transfer Pricing",
           "Professional tax return filing",
           "NRI taxation advisory and filings",
-          "Assessment support under Black Money Act",
+          "Representation during search and survey proceedings",
         ],
       },
       {
@@ -92,7 +92,7 @@ const sections = [
   },
   {
     id: "outsourcing",
-    title: "Outsourcing / Back end Services",
+    title: "Outsourcing / Back office Services",
     intro:
       "We provide dependable back-office and operational support so clients can focus on core business while maintaining timely compliance and accurate records. Reach out for a customised outsourcing scope.",
     items: [
@@ -125,11 +125,11 @@ const sections = [
       "Our Indirect Tax Services are tailored to assist clients in meeting the challenges that the constantly evolving environment throws up. We advise clients on various aspects impacting business, management of tax risks and in dealing with tax controversies.",
     subheading: "Our assistance in tax compliances range as under –",
     items: [
-      "Preparation and filing of Goods & service tax returns",
+      "GST registration, preparation, and filing of Goods & Service Tax returns",
       "Assistance in matters relating to Refund, Scrutiny assessment.",
-      "Representations during the revenue audit and assessment procedures before various authorities including Appellate Authorities",
+      "Representations during the revenue audit and assessment procedures before GST authorities including Appellate Authorities",
       "GST advisory and compliance health checks",
-      "VAT-related advisory support (where applicable)",
+      "VAT-related advisory support",
       "Indirect tax risk management and controversy support",
     ],
   },

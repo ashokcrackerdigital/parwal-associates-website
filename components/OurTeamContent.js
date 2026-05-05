@@ -26,7 +26,7 @@ const modalBlock = "mb-5 last:mb-0";
 const modalBlockTitle =
   "mb-2.5 flex items-center gap-2 text-[0.8125rem] font-extrabold uppercase tracking-wide text-primary";
 const modalProse =
-  "text-[0.9375rem] leading-relaxed text-zinc-600 [&_p]:mb-3.5 [&_p:last-child]:mb-0 [&_h4]:mb-1.5 [&_h4]:mt-4 [&_h4]:text-sm [&_h4]:font-extrabold [&_h4]:uppercase [&_h4]:tracking-wide [&_h4]:text-primary [&_h4:first-child]:mt-0 [&_ul]:mb-3.5 [&_ul]:pl-[1.15rem]";
+  "text-[0.9375rem] leading-relaxed text-zinc-600 text-justify [&_p]:mb-3.5 [&_p:last-child]:mb-0 [&_h4]:mb-1.5 [&_h4]:mt-4 [&_h4]:text-sm [&_h4]:font-extrabold [&_h4]:uppercase [&_h4]:tracking-wide [&_h4]:text-primary [&_h4:first-child]:mt-0 [&_ul]:mb-3.5 [&_ul]:pl-[1.15rem]";
 const modalList =
   "m-0 list-disc pl-[1.15rem] text-[0.9375rem] leading-relaxed text-zinc-600";
 const modalTagList = "flex flex-wrap gap-2";
@@ -39,9 +39,11 @@ const TEAM = [
     name: "CA (Dr.) K C Parwal",
     credentials: "FCA (Dr.) Kailash Chandra Parwal",
     title: "Senior Partner · Patriarch",
-    experience: "38+ years",
+    experience: "40+ years",
     excerpt:
-      "The patriarch of the firm is an eminent personality in Chartered Accountancy with rich experience of about 38 years. A visionary leader and inspiring dignitary of the CA fraternity—also a published author in spirituality and law.",
+      "Founder and Senior Partner of Parwal and Associates, Dr. K.C. Parwal is a veteran Chartered Accountant known for strategic financial leadership, corporate advisory depth, and professional ethics.",
+    photo: "/KCParwalImg.png",
+    photoClass: "object-[center_top]",
     initials: "KC",
     photoTint: "from-[#175888]/25 to-zinc-300",
   },
@@ -53,6 +55,8 @@ const TEAM = [
     experience: "25+ years",
     excerpt:
       "A dynamic, forward-looking leader driving a highly client-centric and people-centric firm. Fellow member of ICAI and a lawyer, with the firm since 2002—known for depth in direct tax and investment advisory.",
+    photo: "/BhupeshMathur.png",
+    photoClass: "object-[center_top]",
     initials: "BM",
     photoTint: "from-secondary/20 to-zinc-300",
   },
@@ -63,7 +67,9 @@ const TEAM = [
     title: "Associate Member",
     experience: "Since 2015",
     excerpt:
-      "Young and energetic associate member of ICAI and a postgraduate from the University of Rajasthan. Leads statutory and tax audits, internal audits, bank audits, and company law matters with strong accounting and corporate management expertise.",
+      "Dynamic and dedicated Associate Member of ICAI with extensive experience in statutory, tax, internal, and bank audits, along with company law and compliance advisory.",
+    photo: "/MaheshSainiImg.png",
+    photoClass: "object-[center_12%]",
     initials: "MS",
     photoTint: "from-third/25 to-zinc-300",
   },
@@ -72,9 +78,11 @@ const TEAM = [
     name: "CA Krishan K Sharma",
     credentials: "FCA, M.Com, DISA, FAFD, NET (UGC)",
     title: "Associate Member",
-    experience: "Core team",
+    experience: "6+ years",
     excerpt:
-      "A visionary and dedicated professional—associate member of ICAI and postgraduate from the University of Rajasthan. Focuses on direct taxation, audits of companies including banks, and ROC compliances.",
+      "Fellow Chartered Accountant with 6+ years of experience in audit, taxation, and regulatory advisory, including litigation support and practical business structuring across sectors.",
+    photo: "/KrishanSharmaImg.png",
+    photoClass: "object-[center_top]",
     initials: "KS",
     photoTint: "from-primary/20 to-zinc-300",
   },
@@ -163,10 +171,20 @@ export default function OurTeamContent() {
                   ].join(" ")}
                 >
                   <div className="relative shrink-0 bg-gradient-to-br from-primary/[0.18] to-zinc-200 md:h-auto md:w-[42%] md:max-w-xs">
-                    <PhotoPlaceholder
-                      initials={member.initials}
-                      tintClass={member.photoTint}
-                    />
+                    {member.photo ? (
+                      <Image
+                        src={member.photo}
+                        alt={member.name}
+                        fill
+                        className={`object-cover ${member.photoClass || "object-top"}`}
+                        sizes="(max-width: 768px) 100vw, 320px"
+                      />
+                    ) : (
+                      <PhotoPlaceholder
+                        initials={member.initials}
+                        tintClass={member.photoTint}
+                      />
+                    )}
                   </div>
                   <div className="flex flex-1 flex-col gap-2.5 p-[1.35rem] pb-6 md:p-6 md:pr-7">
                     <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-third/15 px-3 py-1 text-xs font-bold text-third">
@@ -263,57 +281,62 @@ function ModalParwal() {
         </div>
         <div className={modalProse}>
           <p>
-            FCA (Dr.) Kailash Chandra Parwal, the patriarch of the firm, is an
-            eminent personality in the field of Chartered Accountancy with rich
-            experience of about 38 years. CA Parwal completed his graduation in
-            1976 from the University of Rajasthan. A man with a vision, he has
-            always been an inspiring dignitary of the CA fraternity.
+            Dr. K.C. Parwal, Founder and Senior Partner of Parwal and
+            Associates, is a veteran Chartered Accountant with an extraordinary
+            professional journey spanning over 45 years. As the founding force
+            behind a reputed Jaipur-based practice, he has built a legacy of
+            trust, professionalism, and excellence in corporate consultancy
+            across Rajasthan and India.
           </p>
           <p>
-            Apart from professional work, he has authored notable books—below
-            are highlights from his published work in spirituality and law.
+            With nearly five decades of practical experience, he provides
+            strategic financial oversight and advisory to prestigious
+            enterprises, helping businesses address modern corporate complexity
+            while maintaining long-term financial discipline and transparency.
           </p>
-          <h4>Spirituality</h4>
+          <h4>Core Professional Expertise</h4>
           <p>
-            <strong>Saral Ramayan</strong> — A poetic scripture of over 5,000
-            verses in Hindi covering the divine path of Bhagwan Shree Ram. Parts
-            are telecast on the Sanskar channel, beamed across 150+ countries. He
-            obtained a Doctorate (Ph.D.) on this topic.
-          </p>
-          <p>
-            <strong>Shree Krishanam</strong> — A pioneering poetic work of over
-            6,000 verses in Hindi embodying 108 divine verses of the Geeta—
-            covering different roles and persona of Bhagwan Shree Krishan.
-          </p>
-          <h4>Law</h4>
-          <p>
-            <strong>Jaipur Building Laws</strong> — A unique compilation of
-            Acts, circulars, policies, and notifications for real estate in
-            Jaipur, with page-to-page English translation, chart-wise
-            presentation, and an alphabetical key index. Updated and revised over
-            time.
+            <strong>Taxation (Income Tax and GST)</strong> — He is widely
+            respected for practical tax planning, compliance structuring, and
+            authoritative advisory support for both individuals and large
+            corporates.
           </p>
           <p>
-            <strong>Model Rajasthan Building Regulations</strong> — Similar to
-            the Jaipur building bye-laws, extended for Rajasthan with clear
-            tabulations for practical use.
+            <strong>Audit and Assurance</strong> — Under his leadership, the
+            firm delivers high-standard auditing services grounded in rigorous
+            professional integrity.
           </p>
           <p>
-            CA Parwal has vast experience in direct taxation, corporate matters,
-            auditing, business advisory, RERA consultancy, and drafting of
-            deeds.
+            <strong>Corporate and Legal Advisory</strong> — He is an authority
+            in corporate law and business structuring, and a recognized expert
+            in Rajasthan Building Laws.
           </p>
           <p>
-            A man with a golden heart, he has never allowed age to be an obstacle
-            in fulfilling his objectives—and still works with the same energy
-            for the development of the profession.
+            Dr. Parwal authored the comprehensive guide{" "}
+            <strong>Jaipur Building Laws</strong>, a widely used reference for
+            investors, developers, and consultants.
+          </p>
+          <h4>Mentorship and Professional Ethics</h4>
+          <p>
+            He is admired for disciplined leadership and exemplary professional
+            conduct. Over the years, he has mentored numerous CAs, interns, and
+            finance professionals in ethical practice and complex financial
+            decision-making.
+          </p>
+          <h4>Literary and Global Recognition</h4>
+          <p>
+            Beyond professional practice, Dr. Parwal is a respected author and
+            researcher. His legal publications include work on Rajasthan
+            Building Regulations, including the latest 2025 Township Policy.
+            His spiritual and cultural writings include works on the Ramayana,
+            Shri Krishnam, Shri Bhagwatji, and Jin Vandana.
           </p>
           <p>
-            He balances professional commitments with responsibility towards
-            society, participating in various social organisations and actively
-            supporting <strong>Nachiketa Gurukul</strong>, an NGO that battles
-            illiteracy and provides free education to under-privileged and
-            talented students.
+            For his contribution to literature and society, he was conferred
+            the prestigious <strong>Bharat Gaurav Award</strong> at the British
+            Parliament (House of Commons). He continues to be a guiding force
+            in the financial sector, blending legal insight with a deep social
+            and literary commitment.
           </p>
         </div>
       </div>
@@ -372,7 +395,8 @@ function ModalBhupesh() {
           <li>B.Com, University of Rajasthan</li>
           <li>DISA (ISA), ICAI</li>
           <li>BCCD (BSE)</li>
-          <li>CCCA, AICA — concurrent bank audit (ICAI)</li>
+          <li>CCCA — concurrent bank audit (ICAI)</li>
+          <li>AICA Level 1</li>
         </ul>
       </div>
       <div className={modalBlock}>
@@ -410,15 +434,21 @@ function ModalMahesh() {
         </div>
         <div className={modalProse}>
           <p>
-            CA Mahesh Saini is a young and energetic associate member of ICAI
-            and a postgraduate from the University of Rajasthan. He has been
-            with the firm since 2015.
+            CA Mahesh Saini is a dynamic and dedicated Associate Member of ICAI
+            and a postgraduate from the University of Rajasthan, associated with
+            the firm since 2015.
           </p>
           <p>
-            He looks after statutory and tax audit, internal audit of firms and
-            companies, bank audits, and company law matters—with strong command
-            of accounting, financial and banking arrangements, and corporate
-            management.
+            He has extensive experience in statutory and tax audits, internal
+            audits of firms and companies, bank audits, and company law matters.
+            He also actively handles corporate matters and provides advisory on
+            various business and regulatory compliances.
+          </p>
+          <p>
+            He possesses a strong command over accounting, financial and banking
+            arrangements, and corporate management, and is involved in a wide
+            range of consultancy services, delivering practical and
+            result-oriented solutions to clients.
           </p>
         </div>
       </div>
@@ -466,12 +496,31 @@ function ModalKrishan() {
         </div>
         <div className={modalProse}>
           <p>
-            CA K K Sharma is a visionary and dedicated professional—an associate
-            member of ICAI and a postgraduate from the University of Rajasthan.
+            Krishan Kumar Sharma is a Fellow Chartered Accountant with over 6
+            years of experience in audit, taxation, and regulatory advisory. He
+            holds a Diploma in Information Systems Audit (DISA), is certified in
+            Forensic Audit and Fraud Detection (FAFD), and has completed
+            post-graduation in ABST from the University of Rajasthan.
           </p>
           <p>
-            He currently looks after direct taxation, audit of companies
-            including banks, ROC compliances, and related matters.
+            He specializes in statutory and internal audits, direct and indirect
+            taxation litigation, and business structuring across sectors
+            including real estate, manufacturing, IT, healthcare, and aviation.
+            He has extensive experience in handling tax litigation and
+            representing clients before income tax and GST authorities.
+          </p>
+          <p>
+            Krishan has advised startups and established businesses on
+            structuring, compliance, and cross-border tax matters, including
+            DTAA implications. He brings strong expertise in risk assessment,
+            internal controls, and regulatory frameworks, with a practical
+            approach supported by effective client handling and team leadership.
+            He is also actively involved in corporate consultancy, including
+            entity formation and restructuring.
+          </p>
+          <p>
+            He is a life member of the Tax Consultants Association, Jaipur,
+            reflecting his commitment to the professional community.
           </p>
         </div>
       </div>
@@ -494,10 +543,12 @@ function ModalKrishan() {
         </div>
         <div className={modalTagList}>
           {[
-            "Direct taxation",
-            "Company audits",
-            "Bank audits",
-            "ROC compliances",
+            "Statutory & internal audits",
+            "Direct & indirect tax litigation",
+            "Income tax & GST representation",
+            "Cross-border tax (DTAA)",
+            "Risk assessment & internal controls",
+            "Entity formation & restructuring",
           ].map((t) => (
             <span key={t} className={modalTag}>
               {t}
