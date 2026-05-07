@@ -50,16 +50,6 @@ const services = [
     linkClass: "text-secondary hover:text-third",
   },
   {
-    title: "Corporate Matters",
-    slug: "corporate-matters",
-    description:
-      "Incorporation, LLPs, secretarial work, and ROC compliance tailored to your structure.",
-    icon: Building2,
-    iconBg: "bg-secondary/15",
-    iconClass: "text-secondary",
-    linkClass: "text-secondary hover:text-third",
-  },
-  {
     title: "Indirect Taxation",
     slug: "indirect-taxation",
     description:
@@ -68,6 +58,16 @@ const services = [
     iconBg: "bg-third/15",
     iconClass: "text-third",
     linkClass: "text-third hover:text-primary",
+  },
+  {
+    title: "Corporate Matters",
+    slug: "corporate-matters",
+    description:
+      "Incorporation, LLPs, secretarial work, and ROC compliance tailored to your structure.",
+    icon: Building2,
+    iconBg: "bg-secondary/15",
+    iconClass: "text-secondary",
+    linkClass: "text-secondary hover:text-third",
   },
 ];
 
