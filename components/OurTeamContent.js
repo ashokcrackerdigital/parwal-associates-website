@@ -64,8 +64,8 @@ const TEAM = [
     id: "mahesh-saini",
     name: "CA Mahesh Saini",
     credentials: "ACA, M.Com",
-    title: "Associate Member",
-    experience: "Since 2015",
+    title: "Partner",
+    experience: "10+ years",
     excerpt:
       "Dynamic and dedicated Associate Member of ICAI with extensive experience in statutory, tax, internal, and bank audits, along with company law and compliance advisory.",
     photo: "/MaheshSainiImg.png",
@@ -77,7 +77,7 @@ const TEAM = [
     id: "krishan-sharma",
     name: "CA Krishan K Sharma",
     credentials: "FCA, M.Com, DISA, FAFD, NET (UGC)",
-    title: "Associate Member",
+    title: "Partner",
     experience: "6+ years",
     excerpt:
       "Fellow Chartered Accountant with 6+ years of experience in audit, taxation, and regulatory advisory, including litigation support and practical business structuring across sectors.",
@@ -225,14 +225,14 @@ export default function OurTeamContent() {
 
       {openMember && (
         <div
-          className="fixed inset-0 z-[60] flex items-start justify-center overflow-y-auto bg-slate-900/55 p-5 backdrop-blur-md"
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-slate-900/55 p-3 backdrop-blur-md sm:p-5"
           role="presentation"
           onClick={(e) => {
             if (e.target === e.currentTarget) close();
           }}
         >
           <div
-            className="relative my-8 w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-[0_25px_60px_-20px_rgba(0,0,0,0.45)]"
+            className="relative flex h-[min(94dvh,46rem)] w-full max-w-2xl flex-col overflow-hidden rounded-2xl bg-white shadow-[0_25px_60px_-20px_rgba(0,0,0,0.45)]"
             role="dialog"
             aria-modal="true"
             aria-labelledby="team-modal-heading"
@@ -258,7 +258,7 @@ export default function OurTeamContent() {
               <p className="mt-1 text-sm text-white/85">{openMember.credentials}</p>
             </div>
 
-            <div className="max-h-[min(70vh,36rem)] overflow-y-auto px-[1.35rem] pb-7 pt-6 sm:px-7 sm:pb-8">
+            <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-[1.35rem] pb-7 pt-6 sm:px-7 sm:pb-8">
               {openMember.id === "kc-parwal" && <ModalParwal />}
               {openMember.id === "bhupesh-mathur" && <ModalBhupesh />}
               {openMember.id === "mahesh-saini" && <ModalMahesh />}

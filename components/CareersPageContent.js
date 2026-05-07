@@ -296,31 +296,33 @@ export default function CareersPageContent() {
             </p>
           </div>
 
-          <div
-            className="mt-10 flex flex-col gap-2 rounded-2xl border border-zinc-200 bg-white p-1.5 shadow-sm sm:flex-row"
-            role="tablist"
-            aria-label="Application type"
-          >
-            {[
-              { id: "articleship", label: "Articleship" },
-              { id: "professionals", label: "Professionals" },
-              { id: "firm", label: "Firm collaborations" },
-            ].map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                role="tab"
-                aria-selected={applyTab === t.id}
-                onClick={() => setApplyTab(t.id)}
-                className={`min-h-[48px] flex-1 rounded-xl px-4 py-3 text-sm font-semibold transition sm:text-base ${
-                  applyTab === t.id
-                    ? "bg-primary text-white shadow-md shadow-primary/25"
-                    : "text-zinc-700 hover:bg-zinc-50 hover:text-primary"
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
+          <div className="mt-10 -mx-1 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div
+              className="mx-1 inline-flex min-w-full gap-2 rounded-2xl border border-zinc-200 bg-white p-1.5 shadow-sm sm:flex"
+              role="tablist"
+              aria-label="Application type"
+            >
+              {[
+                { id: "articleship", label: "Articleship" },
+                { id: "professionals", label: "Professionals" },
+                { id: "firm", label: "Firm collaborations" },
+              ].map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={applyTab === t.id}
+                  onClick={() => setApplyTab(t.id)}
+                  className={`min-h-[44px] whitespace-nowrap rounded-xl px-5 py-2.5 text-sm font-semibold transition sm:min-h-[48px] sm:flex-1 sm:px-4 sm:py-3 sm:text-base ${
+                    applyTab === t.id
+                      ? "bg-primary text-white shadow-md shadow-primary/25"
+                      : "text-zinc-700 hover:bg-zinc-50 hover:text-primary"
+                  }`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="mt-10 rounded-2xl border border-zinc-100 bg-white p-6 shadow-lg shadow-zinc-200/60 sm:p-10">
