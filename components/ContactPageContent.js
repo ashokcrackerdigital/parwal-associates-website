@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { Clock, Mail, MapPin, Phone, Send } from "lucide-react";
+import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
 import {
   PA_PHOTO_HERO_IMAGE_CLASS,
   PA_PHOTO_HERO_INNER,
@@ -57,27 +58,53 @@ const infoCards = [
 export default function ContactPageContent() {
   const location = LOCATION;
   const emailHref = "mailto:parwalandassociates@gmail.com";
+  const [result, setResult] = useState("");
+  const [resultType, setResultType] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const form = e.currentTarget;
-    const data = new FormData(form);
-    const name = String(data.get("name") || "").trim();
-    const email = String(data.get("email") || "").trim();
-    const phone = String(data.get("phone") || "").trim();
-    const subject = String(data.get("subject") || "").trim();
-    const message = String(data.get("message") || "").trim();
-    const body = [
-      `Name: ${name}`,
-      `Email: ${email}`,
-      `Phone: ${phone}`,
-      "",
-      message,
-    ].join("\n");
-    const mailto = `${emailHref}?subject=${encodeURIComponent(
-      subject || "Website enquiry"
-    )}&body=${encodeURIComponent(body)}`;
-    window.location.href = mailto;
+    const formData = new FormData(form);
+    const subject = String(formData.get("subject") || "").trim();
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY || "";
+    formData.append("access_key", accessKey);
+    formData.append("from_name", "Parwal & Associates Website");
+    formData.append("subject", subject || "Website enquiry");
+
+    if (!accessKey) {
+      setResultType("error");
+      setResult(
+        "Form is not configured yet. Add NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY."
+      );
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      setResultType("sending");
+      setResult("Sending...");
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      if (data.success) {
+        setResultType("success");
+        setResult("Success! Your message has been sent.");
+        setIsSuccess(true);
+        form.reset();
+      } else {
+        setResultType("error");
+        setResult(data.message || "Error: Unable to send message.");
+      }
+    } catch {
+      setResultType("error");
+      setResult("Error: Please try again in a moment.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -187,98 +214,144 @@ export default function ContactPageContent() {
                 </span>{" "}
                 are required.
               </p>
-              <form
-                onSubmit={handleSubmit}
-                className="mt-8 space-y-5 rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 shadow-sm sm:p-8"
-              >
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Full name{" "}
-                      <span className="text-third" aria-hidden>
-                        *
-                      </span>
-                    </span>
-                    <input
-                      name="name"
-                      type="text"
-                      required
-                      autoComplete="name"
-                      placeholder="Your name"
-                      className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
-                    />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Phone{" "}
-                      <span className="text-third" aria-hidden>
-                        *
-                      </span>
-                    </span>
-                    <input
-                      name="phone"
-                      type="tel"
-                      required
-                      autoComplete="tel"
-                      placeholder="+91 …"
-                      className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
-                    />
-                  </label>
-                </div>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Email{" "}
-                    <span className="text-third" aria-hidden>
-                      *
-                    </span>
-                  </span>
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    placeholder="you@example.com"
-                    className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Subject{" "}
-                    <span className="text-third" aria-hidden>
-                      *
-                    </span>
-                  </span>
-                  <input
-                    name="subject"
-                    type="text"
-                    required
-                    placeholder="How can we help?"
-                    className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Message{" "}
-                    <span className="text-third" aria-hidden>
-                      *
-                    </span>
-                  </span>
-                  <textarea
-                    name="message"
-                    required
-                    rows={5}
-                    placeholder="Share context, timelines, or questions…"
-                    className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
-                  />
-                </label>
-                <button
-                  type="submit"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-third px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary sm:w-auto"
+              {isSuccess ? (
+                <div
+                  className="mt-8 min-h-[510px] rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 shadow-sm sm:p-8"
+                  role="status"
+                  aria-live="polite"
                 >
-                  <Send className="h-4 w-4" strokeWidth={2} aria-hidden />
-                  Send message
-                </button>
-              </form>
+                  <div className="mt-10 flex justify-center sm:mt-12">
+                    <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 sm:h-24 sm:w-24">
+                      <CheckCircle2 className="h-10 w-10 sm:h-12 sm:w-12" aria-hidden />
+                    </span>
+                  </div>
+                  <div className="mt-10 text-center sm:mt-12">
+                    <h3 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                      Message sent!
+                    </h3>
+                    <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-zinc-700 sm:text-lg">
+                      Thank you for reaching out. We&apos;ll get back to you
+                      within 1-2 business days.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  onSubmit={handleSubmit}
+                  className="mt-8 space-y-5 rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 shadow-sm sm:p-8"
+                >
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Full name{" "}
+                        <span className="text-third" aria-hidden>
+                          *
+                        </span>
+                      </span>
+                      <input
+                        name="name"
+                        type="text"
+                        required
+                        autoComplete="name"
+                        placeholder="Your name"
+                        className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Phone{" "}
+                        <span className="text-third" aria-hidden>
+                          *
+                        </span>
+                      </span>
+                      <input
+                        name="phone"
+                        type="tel"
+                        required
+                        autoComplete="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10,15}"
+                        minLength={10}
+                        maxLength={15}
+                        onInput={(e) => {
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /\D/g,
+                            ""
+                          );
+                        }}
+                        placeholder="Enter phone number"
+                        title="Please enter digits only (10 to 15 numbers)."
+                        className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                      />
+                    </label>
+                  </div>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Email{" "}
+                      <span className="text-third" aria-hidden>
+                        *
+                      </span>
+                    </span>
+                    <input
+                      name="email"
+                      type="email"
+                      required
+                      autoComplete="email"
+                      pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                      placeholder="you@example.com"
+                      title="Please enter a valid email address."
+                      className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Subject (optional)
+                    </span>
+                    <input
+                      name="subject"
+                      type="text"
+                      placeholder="How can we help?"
+                      className="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                    />
+                  </label>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Message{" "}
+                      <span className="text-third" aria-hidden>
+                        *
+                      </span>
+                    </span>
+                    <textarea
+                      name="message"
+                      required
+                      rows={5}
+                      placeholder="Share context, timelines, or questions…"
+                      className="mt-2 w-full resize-y rounded-xl border border-zinc-200 bg-white px-4 py-3 text-zinc-900 outline-none transition placeholder:text-zinc-400 focus:border-primary focus:ring-2 focus:ring-primary/20"
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-third px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+                  >
+                    <Send className="h-4 w-4" strokeWidth={2} aria-hidden />
+                    {isSubmitting ? "Sending..." : "Send message"}
+                  </button>
+                  {result ? (
+                    <p
+                      className={`rounded-xl border px-4 py-3 text-sm font-medium ${
+                        resultType === "error"
+                          ? "border-red-200 bg-red-50 text-red-700"
+                          : "border-zinc-200 bg-zinc-100 text-zinc-700"
+                      }`}
+                      role="status"
+                      aria-live="polite"
+                    >
+                      {result}
+                    </p>
+                  ) : null}
+                </form>
+              )}
             </div>
 
             {/* Location tabs + map */}
