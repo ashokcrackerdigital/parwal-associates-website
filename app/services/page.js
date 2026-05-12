@@ -172,53 +172,93 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      <div className="mx-auto w-full max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        {sections.map((section) => (
-          <section
-            key={section.id}
-            id={section.id}
-            className="scroll-mt-24 border-b border-zinc-200 py-12 last:border-0"
-          >
-            <h2 className="text-2xl font-bold text-primary sm:text-3xl">
-              {section.title}
-            </h2>
-            <p className="mt-4 text-base leading-8 text-zinc-700">{section.intro}</p>
-
-            {section.subheading && (
-              <p className="mt-4 font-semibold text-primary">{section.subheading}</p>
-            )}
-
-            {section.items?.length > 0 && (
-              <ul className="mt-6 space-y-3">
-                {section.items.map((line) => (
-                  <li key={line} className="flex gap-3 text-zinc-700">
-                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-third" />
-                    <span>{line}</span>
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {section.blocks?.map((block) => (
-              <div key={block.heading} className="mt-8">
-                <h3 className="text-lg font-bold text-primary">{block.heading}</h3>
-                {block.text && (
-                  <p className="mt-2 text-base leading-8 text-zinc-700">{block.text}</p>
-                )}
-                {block.items && (
-                  <ul className="mt-4 space-y-2">
-                    {block.items.map((line) => (
-                      <li key={line} className="flex gap-3 text-zinc-700">
-                        <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-secondary" />
-                        <span>{line}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+      <div className="bg-zinc-50 py-14 sm:py-16">
+        <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+          <section className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm shadow-zinc-200/70 sm:p-8">
+            <p className="text-sm font-semibold uppercase tracking-wide text-secondary">
+              Practice Areas
+            </p>
+            <p className="mt-2 text-zinc-600">
+              Explore each domain to see how we support clients with audit, tax,
+              compliance, and strategic advisory services.
+            </p>
+            <ul className="mt-6 flex flex-wrap gap-3">
+              {sections.map((section) => (
+                <li key={section.id}>
+                  <a
+                    href={`#${section.id}`}
+                    className="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary transition hover:border-primary/35 hover:bg-primary/10"
+                  >
+                    {section.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </section>
-        ))}
+
+          <div className="mt-8 space-y-6 sm:mt-10">
+            {sections.map((section, index) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="scroll-mt-24 rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm shadow-zinc-200/70 sm:p-8"
+              >
+                <div className="sm:flex sm:items-start sm:gap-4">
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary sm:h-9 sm:w-9 sm:text-sm">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div className="mt-3 w-full sm:mt-0 sm:min-w-0 sm:flex-1">
+                    <h2 className="text-2xl font-bold text-primary sm:text-3xl">
+                      {section.title}
+                    </h2>
+                    <p className="mt-3 text-base leading-8 text-zinc-700">
+                      {section.intro}
+                    </p>
+                    {section.subheading && (
+                      <p className="mt-5 font-semibold text-primary">{section.subheading}</p>
+                    )}
+
+                    {section.items?.length > 0 && (
+                      <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                        {section.items.map((line) => (
+                          <li
+                            key={line}
+                            className="flex gap-3 rounded-xl border border-zinc-200 bg-zinc-50 px-4 py-3 text-zinc-700"
+                          >
+                            <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-third" />
+                            <span>{line}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {section.blocks?.map((block) => (
+                      <div
+                        key={block.heading}
+                        className="mt-6 rounded-xl border border-zinc-200 bg-zinc-50 p-5"
+                      >
+                        <h3 className="text-lg font-bold text-primary">{block.heading}</h3>
+                        {block.text && (
+                          <p className="mt-2 text-base leading-8 text-zinc-700">{block.text}</p>
+                        )}
+                        {block.items && (
+                          <ul className="mt-4 space-y-2">
+                            {block.items.map((line) => (
+                              <li key={line} className="flex gap-3 text-zinc-700">
+                                <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-secondary" />
+                                <span>{line}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </section>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
