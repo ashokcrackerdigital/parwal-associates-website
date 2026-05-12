@@ -5,6 +5,8 @@ import { useState } from "react";
 import {
   Award,
   Briefcase,
+  CheckCircle2,
+  Loader2,
   Send,
   TrendingUp,
   UsersRound,
@@ -18,24 +20,6 @@ import {
 
 const HERO_IMAGE =
   "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=2400&q=85";
-
-const CAREERS_EMAIL = "parwalandasociates@gmail.com";
-
-const MONTHS = [
-  { value: "", label: "Select month" },
-  { value: "01", label: "January" },
-  { value: "02", label: "February" },
-  { value: "03", label: "March" },
-  { value: "04", label: "April" },
-  { value: "05", label: "May" },
-  { value: "06", label: "June" },
-  { value: "07", label: "July" },
-  { value: "08", label: "August" },
-  { value: "09", label: "September" },
-  { value: "10", label: "October" },
-  { value: "11", label: "November" },
-  { value: "12", label: "December" },
-];
 
 const whyJoinCards = [
   {
@@ -70,30 +54,24 @@ function ErrorText({ message }) {
   return <p className="mt-1 text-sm text-red-600">{message}</p>;
 }
 
-function openCareersMailto(subject, bodyLines, fileHint) {
-  const body = bodyLines.filter(Boolean).join("\n");
-  const mailto = `mailto:${CAREERS_EMAIL}?subject=${encodeURIComponent(
-    subject
-  )}&body=${encodeURIComponent(body)}`;
-  window.location.href = mailto;
-  if (fileHint) {
-    window.setTimeout(() => {
-      window.alert(
-        `${fileHint}\n\nYour email app should open with your details. Please attach the files you selected before sending.`
-      );
-    }, 300);
-  }
-}
-
-function fileChosen(input) {
-  return input?.files?.length > 0;
-}
-
 export default function CareersPageContent() {
   const [applyTab, setApplyTab] = useState("articleship");
   const [artErrors, setArtErrors] = useState({});
+  const [artResult, setArtResult] = useState("");
+  const [artResultType, setArtResultType] = useState("");
+  const [isArtSubmitting, setIsArtSubmitting] = useState(false);
+  const [isArtSuccess, setIsArtSuccess] = useState(false);
   const [profErrors, setProfErrors] = useState({});
+  const [profResult, setProfResult] = useState("");
+  const [profResultType, setProfResultType] = useState("");
+  const [isProfSubmitting, setIsProfSubmitting] = useState(false);
+  const [isProfSuccess, setIsProfSuccess] = useState(false);
   const [firmErrors, setFirmErrors] = useState({});
+  const [firmResult, setFirmResult] = useState("");
+  const [firmResultType, setFirmResultType] = useState("");
+  const [isFirmSubmitting, setIsFirmSubmitting] = useState(false);
+  const [isFirmSuccess, setIsFirmSuccess] = useState(false);
+  const SCRIPT_URL = process.env.NEXT_PUBLIC_CAREERS_SCRIPT_URL || "";
 
   function validateArticleship(form) {
     const e = {};
@@ -101,117 +79,336 @@ export default function CareersPageContent() {
 
     if (!get("name")) e.name = "Name field is required.";
     if (!get("email")) e.email = "Email field is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email")))
+      e.email = "Please enter a valid email address.";
     if (!get("contact")) e.contact = "Contact field is required.";
+    else if (!/^\d{10,15}$/.test(get("contact")))
+      e.contact = "Contact must contain 10 to 15 digits.";
     if (!get("gender")) e.gender = "This field is required.";
     if (!get("city")) e.city = "City/town/village field is required.";
-
-    if (!fileChosen(form.elements.namedItem("resume")))
-      e.resume = "Resume file is required.";
 
     return e;
   }
 
-  function onArticleshipSubmit(ev) {
-    ev.preventDefault();
-    const form = ev.currentTarget;
-    const errs = validateArticleship(form);
-    setArtErrors(errs);
-    if (Object.keys(errs).length > 0) return;
-
-    const get = (name) =>
-      String(form.elements.namedItem(name)?.value ?? "").trim();
-
-    const lines = [
-      "Application type: Articleship",
-      `Name: ${get("name")}`,
-      `Email: ${get("email")}`,
-      `Contact: ${get("contact")}`,
-      `Gender: ${get("gender")}`,
-      `City/Town/Village: ${get("city")}`,
-      "",
-      `Resume: ${form.elements.namedItem("resume")?.files?.[0]?.name || ""}`,
-    ];
-
-    openCareersMailto(
-      "Career application — Articleship",
-      lines,
-      "Attach your resume before sending."
-    );
-  }
-
-  function onProfessionalsSubmit(ev) {
-    ev.preventDefault();
-    const form = ev.currentTarget;
+  function validateProfessionals(form) {
     const e = {};
     const get = (name) => String(form.elements.namedItem(name)?.value ?? "").trim();
 
     if (!get("name")) e.name = "Name field is required.";
     if (!get("email")) e.email = "Email field is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email")))
+      e.email = "Please enter a valid email address.";
     if (!get("contact")) e.contact = "Contact field is required.";
-    if (!fileChosen(form.elements.namedItem("cv"))) e.cv = "Resume file is required.";
+    else if (!/^\d{10,15}$/.test(get("contact")))
+      e.contact = "Contact must contain 10 to 15 digits.";
+    if (!form.elements.namedItem("cv")?.files?.length)
+      e.cv = "Resume file is required.";
     if (!get("description")) e.description = "Description is required.";
 
-    setProfErrors(e);
-    if (Object.keys(e).length > 0) return;
-
-    const lines = [
-      "Application type: Professionals",
-      `Name: ${get("name")}`,
-      `Email: ${get("email")}`,
-      `Contact: ${get("contact")}`,
-      "",
-      `Description:\n${get("description")}`,
-      "",
-      `CV / Resume filename: ${form.elements.namedItem("cv")?.files?.[0]?.name || ""}`,
-    ];
-
-    openCareersMailto(
-      "Career application — Professionals",
-      lines,
-      "Attach your CV / resume before sending."
-    );
+    return e;
   }
 
-  function onFirmSubmit(ev) {
-    ev.preventDefault();
-    const form = ev.currentTarget;
+  const onArticleshipSubmit = async (e) => {
+
+    e.preventDefault();
+    const form = e.currentTarget;
+    const errs = validateArticleship(form);
+    setArtErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+    setArtErrors({});
+
+    if (!SCRIPT_URL) {
+      setArtResult("Form is not configured yet. Add NEXT_PUBLIC_CAREERS_SCRIPT_URL.");
+      setArtResultType("error");
+      return;
+    }
+  
+    try {
+  
+      setIsArtSubmitting(true);
+  
+      const formData = new FormData(form);
+  
+      const file = formData.get("resume");
+  
+      let fileData = "";
+      let fileName = "";
+      let fileType = "";
+  
+      // FILE CONVERT BASE64
+      if (file && file.size > 0) {
+  
+        fileName = file.name;
+  
+        fileType = file.type;
+  
+        fileData = await new Promise((resolve) => {
+  
+          const reader = new FileReader();
+  
+          reader.onload = () => {
+  
+            resolve(
+              reader.result.split(",")[1]
+            );
+          };
+  
+          reader.readAsDataURL(file);
+        });
+      }
+  
+      // PAYLOAD
+      const payload = {
+        // Keys kept in sync with Google Apps Script doPost mapping.
+        formType: "Articleship",
+        name: formData.get("name"),
+        email: formData.get("email"),
+        contact: formData.get("contact"),
+        gender: formData.get("gender"),
+        city: formData.get("city"),
+
+        // keep raw file data fields for Apps Script upload handling
+        fileName,
+        fileType,
+        fileData,
+      };
+  
+      // API CALL
+      const response = await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+          body: JSON.stringify(payload)
+        }
+      );
+  
+      const result = await response.json();
+  
+      if (result.status === "success") {
+  
+        setArtResult(
+          "Application submitted successfully!"
+        );
+  
+        setArtResultType("success");
+  
+        setIsArtSuccess(true);
+  
+        form.reset();
+  
+      } else {
+  
+        setArtResult(result.message);
+  
+        setArtResultType("error");
+      }
+  
+    }
+  
+    catch (err) {
+  
+      setArtResult(
+        "Something went wrong"
+      );
+  
+      setArtResultType("error");
+    }
+  
+    finally {
+  
+      setIsArtSubmitting(false);
+    }
+  };
+
+  const onProfessionalsSubmit = async (e) => {
+
+    e.preventDefault();
+    const form = e.currentTarget;
+    const errs = validateProfessionals(form);
+    setProfErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+    setProfErrors({});
+
+    if (!SCRIPT_URL) {
+      setProfResult("Form is not configured yet. Add NEXT_PUBLIC_CAREERS_SCRIPT_URL.");
+      setProfResultType("error");
+      return;
+    }
+  
+    try {
+      setIsProfSubmitting(true);
+      setProfResultType("sending");
+      setProfResult("Sending...");
+  
+      const formData = new FormData(form);
+  
+      const file = formData.get("cv");
+  
+      let fileData = "";
+      let fileName = "";
+      let fileType = "";
+  
+      // FILE BASE64
+      if (file && file.size > 0) {
+  
+        fileName = file.name;
+  
+        fileType = file.type;
+  
+        fileData = await new Promise((resolve) => {
+  
+          const reader = new FileReader();
+  
+          reader.onload = () => {
+  
+            resolve(
+              reader.result.split(",")[1]
+            );
+          };
+  
+          reader.readAsDataURL(file);
+        });
+      }
+  
+      // PAYLOAD
+      const payload = {
+        // Keys kept in sync with Google Apps Script doPost mapping.
+        formType: "Professional",
+        name: formData.get("name"),
+        email: formData.get("email"),
+        contact: formData.get("contact"),
+        description: formData.get("description"),
+
+        // keep raw file data fields for Apps Script upload handling
+        fileName,
+        fileType,
+        fileData,
+      };
+  
+      // API CALL
+      const response = await fetch(
+        SCRIPT_URL,
+        {
+          method: "POST",
+          body: JSON.stringify(payload)
+        }
+      );
+  
+      const result = await response.json();
+  
+      if (result.status === "success") {
+        setProfResult("Success! Your message has been sent.");
+        setProfResultType("success");
+        setIsProfSuccess(true);
+        form.reset();
+      } else {
+        setProfResult(result.message || "Error: Unable to send application.");
+        setProfResultType("error");
+      }
+  
+    }
+  
+    catch (err) {
+      setProfResult("Something went wrong");
+      setProfResultType("error");
+    } finally {
+      setIsProfSubmitting(false);
+    }
+  };
+
+  function validateFirm(form) {
     const e = {};
     const get = (name) => String(form.elements.namedItem(name)?.value ?? "").trim();
 
     if (!get("firmName")) e.firmName = "Firm Name field is required.";
     if (!get("email")) e.email = "Email field is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(get("email")))
+      e.email = "Please enter a valid email address.";
     if (!get("contact")) e.contact = "Contact field is required.";
+    else if (!/^\d{10,15}$/.test(get("contact")))
+      e.contact = "Contact must contain 10 to 15 digits.";
     if (!get("partners")) e.partners = "Number of partners field is required.";
     if (!get("staff")) e.staff = "Number of staff member field is required.";
     if (!get("locations")) e.locations = "Number of location field is required.";
     if (!get("headOffice")) e.headOffice = "Head office location field is required.";
-    if (!fileChosen(form.elements.namedItem("firmProfile")))
-      e.firmProfile = "Profile file is required.";
     if (!get("description")) e.description = "Description field is required.";
 
-    setFirmErrors(e);
-    if (Object.keys(e).length > 0) return;
+    return e;
+  }
 
-    const lines = [
-      "Application type: Firm collaborations",
-      `Firm name: ${get("firmName")}`,
-      `Email: ${get("email")}`,
-      `Contact: ${get("contact")}`,
-      `Number of partners: ${get("partners")}`,
-      `Number of staff members: ${get("staff")}`,
-      `Number of locations: ${get("locations")}`,
-      `Head office location: ${get("headOffice")}`,
-      "",
-      `Description:\n${get("description")}`,
-      "",
-      `Firm profile file: ${form.elements.namedItem("firmProfile")?.files?.[0]?.name || ""}`,
-    ];
+  async function onFirmSubmit(ev) {
+    ev.preventDefault();
+    const form = ev.currentTarget;
+    const errs = validateFirm(form);
+    setFirmErrors(errs);
+    if (Object.keys(errs).length > 0) return;
+    setFirmErrors({});
 
-    openCareersMailto(
-      "Career application — Firm collaborations",
-      lines,
-      "Attach your firm profile document before sending."
-    );
+    const accessKey =
+      process.env.NEXT_PUBLIC_WEB3FORMS_FIRMCOLLABORATION_ACCESS_KEY || "";
+    if (!accessKey) {
+      setFirmResultType("error");
+      setFirmResult(
+        "Form is not configured yet. Add NEXT_PUBLIC_WEB3FORMS_FIRMCOLLABORATION_ACCESS_KEY."
+      );
+      return;
+    }
+
+    const formData = new FormData(form);
+    formData.append("access_key", accessKey);
+    formData.append("from_name", "Parwal & Associates Careers");
+    formData.append("subject", "Career application - Firm collaborations");
+    formData.append("application_type", "Firm collaborations");
+
+    try {
+      setIsFirmSubmitting(true);
+      setFirmResultType("sending");
+      setFirmResult("Sending...");
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (data.success) {
+        setFirmResultType("success");
+        setFirmResult("Success! Your message has been sent.");
+        setIsFirmSuccess(true);
+        form.reset();
+      } else {
+        setFirmResultType("error");
+        setFirmResult(data.message || "Error: Unable to send application.");
+      }
+    } catch {
+      setFirmResultType("error");
+      setFirmResult("Error: Please try again in a moment.");
+    } finally {
+      setIsFirmSubmitting(false);
+    }
+  }
+
+  function resetApplicationPanels() {
+    setArtErrors({});
+    setArtResult("");
+    setArtResultType("");
+    setIsArtSubmitting(false);
+    setIsArtSuccess(false);
+    setProfErrors({});
+    setProfResult("");
+    setProfResultType("");
+    setIsProfSubmitting(false);
+    setIsProfSuccess(false);
+    setFirmErrors({});
+    setFirmResult("");
+    setFirmResultType("");
+    setIsFirmSubmitting(false);
+    setIsFirmSuccess(false);
+  }
+
+  function handleApplyTabChange(nextTab) {
+    if (nextTab === applyTab) return;
+    resetApplicationPanels();
+    setApplyTab(nextTab);
   }
 
   return (
@@ -312,7 +509,7 @@ export default function CareersPageContent() {
                   type="button"
                   role="tab"
                   aria-selected={applyTab === t.id}
-                  onClick={() => setApplyTab(t.id)}
+                  onClick={() => handleApplyTabChange(t.id)}
                   className={`min-h-[44px] whitespace-nowrap rounded-xl px-5 py-2.5 text-sm font-semibold transition sm:min-h-[48px] sm:flex-1 sm:px-4 sm:py-3 sm:text-base ${
                     applyTab === t.id
                       ? "bg-primary text-white shadow-md shadow-primary/25"
@@ -327,286 +524,445 @@ export default function CareersPageContent() {
 
           <div className="mt-10 rounded-2xl border border-zinc-100 bg-white p-6 shadow-lg shadow-zinc-200/60 sm:p-10">
             {applyTab === "articleship" && (
-              <form
-                onSubmit={onArticleshipSubmit}
-                className="space-y-10"
-                noValidate
-              >
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="block sm:col-span-2">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Name <span className="text-third">*</span>
-                    </span>
-                    <input name="name" type="text" className={`mt-2 ${inputClass}`} />
-                    <ErrorText message={artErrors.name} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Email <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={artErrors.email} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Contact <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="contact"
-                      type="tel"
-                      autoComplete="tel"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={artErrors.contact} />
-                  </label>
-                </div>
-
-                <fieldset>
-                  <legend className="text-sm font-semibold text-zinc-800">
-                    Gender <span className="text-third">*</span>
-                  </legend>
-                  <div className="mt-3 flex flex-wrap gap-6">
-                    {[
-                      { value: "male", label: "Male" },
-                      { value: "female", label: "Female" },
-                      { value: "other", label: "Others" },
-                    ].map((opt) => (
-                      <label
-                        key={opt.value}
-                        className="inline-flex cursor-pointer items-center gap-2 text-sm text-zinc-700"
-                      >
-                        <input
-                          type="radio"
-                          name="gender"
-                          value={opt.value}
-                          className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
-                        />
-                        {opt.label}
-                      </label>
-                    ))}
-                  </div>
-                  <ErrorText message={artErrors.gender} />
-                </fieldset>
-
-                <label className="block max-w-xl">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    City/Town/Village <span className="text-third">*</span>
-                  </span>
-                  <input name="city" type="text" className={`mt-2 ${inputClass}`} />
-                  <ErrorText message={artErrors.city} />
-                </label>
-
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Upload CV / resume <span className="text-third">*</span>
-                  </span>
-                  <input
-                    name="resume"
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    className={`mt-2 ${fileInputClass}`}
-                  />
-                  <ErrorText message={artErrors.resume} />
-                </label>
-
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-third px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary"
+              isArtSuccess ? (
+                <div
+                  className="min-h-[510px] rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 shadow-sm sm:p-8"
+                  role="status"
+                  aria-live="polite"
                 >
-                  <Send className="h-4 w-4" aria-hidden />
-                  Send application
-                </button>
-              </form>
+                  <div className="mt-10 flex justify-center sm:mt-12">
+                    <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 sm:h-24 sm:w-24">
+                      <CheckCircle2
+                        className="h-10 w-10 sm:h-12 sm:w-12"
+                        aria-hidden
+                      />
+                    </span>
+                  </div>
+                  <div className="mt-10 text-center sm:mt-12">
+                    <h3 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                      Message sent!
+                    </h3>
+                    <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-zinc-700 sm:text-lg">
+                      Thank you for reaching out. We&apos;ll get back to you
+                      within 1-2 business days.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  onSubmit={onArticleshipSubmit}
+                  className="space-y-10"
+                  noValidate
+                >
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <label className="block sm:col-span-2">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Name <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={artErrors.name} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Email <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={artErrors.email} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Contact <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="contact"
+                        type="tel"
+                        autoComplete="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10,15}"
+                        minLength={10}
+                        maxLength={15}
+                        onInput={(e) => {
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /\D/g,
+                            ""
+                          );
+                        }}
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={artErrors.contact} />
+                    </label>
+                  </div>
+
+                  <fieldset>
+                    <legend className="text-sm font-semibold text-zinc-800">
+                      Gender <span className="text-third">*</span>
+                    </legend>
+                    <div className="mt-3 flex flex-wrap gap-6">
+                      {[
+                        { value: "male", label: "Male" },
+                        { value: "female", label: "Female" },
+                        { value: "other", label: "Others" },
+                      ].map((opt) => (
+                        <label
+                          key={opt.value}
+                          className="inline-flex cursor-pointer items-center gap-2 text-sm text-zinc-700"
+                        >
+                          <input
+                            type="radio"
+                            name="gender"
+                            value={opt.value}
+                            className="h-4 w-4 border-zinc-300 text-primary focus:ring-primary"
+                          />
+                          {opt.label}
+                        </label>
+                      ))}
+                    </div>
+                    <ErrorText message={artErrors.gender} />
+                  </fieldset>
+
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      City/Town/Village <span className="text-third">*</span>
+                    </span>
+                    <input
+                      name="city"
+                      type="text"
+                      className={`mt-2 ${inputClass}`}
+                    />
+                    <ErrorText message={artErrors.city} />
+                  </label>
+
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Upload CV / resume (optional)
+                    </span>
+                    <input
+                      name="resume"
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      className={`mt-2 ${fileInputClass}`}
+                    />
+                  </label>
+
+                  <button
+                    type="submit"
+                    disabled={isArtSubmitting}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-third px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isArtSubmitting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    ) : (
+                      <Send className="h-4 w-4" aria-hidden />
+                    )}
+                    {isArtSubmitting ? "Sending..." : "Send application"}
+                  </button>
+
+                  {artResult ? (
+                    <p
+                      className={`rounded-xl border px-4 py-3 text-sm font-medium ${
+                        artResultType === "error"
+                          ? "border-red-200 bg-red-50 text-red-700"
+                          : "border-zinc-200 bg-zinc-100 text-zinc-700"
+                      }`}
+                      role="status"
+                      aria-live="polite"
+                    >
+                      {artResult}
+                    </p>
+                  ) : null}
+                </form>
+              )
             )}
 
             {applyTab === "professionals" && (
-              <form
-                onSubmit={onProfessionalsSubmit}
-                className="space-y-6"
-                noValidate
-              >
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="block sm:col-span-2">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Name <span className="text-third">*</span>
-                    </span>
-                    <input name="name" type="text" className={`mt-2 ${inputClass}`} />
-                    <ErrorText message={profErrors.name} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Email <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={profErrors.email} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Contact <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="contact"
-                      type="tel"
-                      autoComplete="tel"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={profErrors.contact} />
-                  </label>
-                </div>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Upload CV / resume <span className="text-third">*</span>
-                  </span>
-                  <input
-                    name="cv"
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    className={`mt-2 ${fileInputClass}`}
-                  />
-                  <ErrorText message={profErrors.cv} />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Description <span className="text-third">*</span>
-                  </span>
-                  <textarea
-                    name="description"
-                    rows={5}
-                    placeholder="Message here"
-                    className={`mt-2 ${inputClass}`}
-                  />
-                  <ErrorText message={profErrors.description} />
-                </label>
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-third px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary"
+              isProfSuccess ? (
+                <div
+                  className="min-h-[510px] rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 shadow-sm sm:p-8"
+                  role="status"
+                  aria-live="polite"
                 >
-                  <Send className="h-4 w-4" aria-hidden />
-                  Send application
-                </button>
-              </form>
+                  <div className="mt-10 flex justify-center sm:mt-12">
+                    <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 sm:h-24 sm:w-24">
+                      <CheckCircle2
+                        className="h-10 w-10 sm:h-12 sm:w-12"
+                        aria-hidden
+                      />
+                    </span>
+                  </div>
+                  <div className="mt-10 text-center sm:mt-12">
+                    <h3 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                      Message sent!
+                    </h3>
+                    <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-zinc-700 sm:text-lg">
+                      Thank you for reaching out. We&apos;ll get back to you
+                      within 1-2 business days.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <form
+                  onSubmit={onProfessionalsSubmit}
+                  className="space-y-6"
+                  noValidate
+                >
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <label className="block sm:col-span-2">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Name <span className="text-third">*</span>
+                      </span>
+                      <input name="name" type="text" className={`mt-2 ${inputClass}`} />
+                      <ErrorText message={profErrors.name} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Email <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={profErrors.email} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Contact <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="contact"
+                        type="tel"
+                        autoComplete="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10,15}"
+                        minLength={10}
+                        maxLength={15}
+                        onInput={(e) => {
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /\D/g,
+                            ""
+                          );
+                        }}
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={profErrors.contact} />
+                    </label>
+                  </div>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Upload CV / resume <span className="text-third">*</span>
+                    </span>
+                    <input
+                      name="cv"
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      className={`mt-2 ${fileInputClass}`}
+                    />
+                    <ErrorText message={profErrors.cv} />
+                  </label>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Description <span className="text-third">*</span>
+                    </span>
+                    <textarea
+                      name="description"
+                      rows={5}
+                      placeholder="Message here"
+                      className={`mt-2 ${inputClass}`}
+                    />
+                    <ErrorText message={profErrors.description} />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={isProfSubmitting}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-third px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    {isProfSubmitting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    ) : (
+                      <Send className="h-4 w-4" aria-hidden />
+                    )}
+                    {isProfSubmitting ? "Sending..." : "Send application"}
+                  </button>
+                  {profResultType === "error" && profResult ? (
+                    <p
+                      className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+                      role="status"
+                      aria-live="polite"
+                    >
+                      {profResult}
+                    </p>
+                  ) : null}
+                </form>
+              )
             )}
 
             {applyTab === "firm" && (
-              <form onSubmit={onFirmSubmit} className="space-y-6" noValidate>
-                <div className="grid gap-6 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Firm name <span className="text-third">*</span>
-                    </span>
-                    <input name="firmName" type="text" className={`mt-2 ${inputClass}`} />
-                    <ErrorText message={firmErrors.firmName} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Email <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="email"
-                      type="email"
-                      autoComplete="email"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={firmErrors.email} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Contact <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="contact"
-                      type="tel"
-                      autoComplete="tel"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={firmErrors.contact} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Number of partners <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="partners"
-                      type="number"
-                      min="0"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={firmErrors.partners} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Number of staff members <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="staff"
-                      type="number"
-                      min="0"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={firmErrors.staff} />
-                  </label>
-                  <label className="block">
-                    <span className="text-sm font-semibold text-zinc-800">
-                      Number of locations <span className="text-third">*</span>
-                    </span>
-                    <input
-                      name="locations"
-                      type="number"
-                      min="0"
-                      className={`mt-2 ${inputClass}`}
-                    />
-                    <ErrorText message={firmErrors.locations} />
-                  </label>
-                </div>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Head office location <span className="text-third">*</span>
-                  </span>
-                  <input name="headOffice" type="text" className={`mt-2 ${inputClass}`} />
-                  <ErrorText message={firmErrors.headOffice} />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Profile of the firm <span className="text-third">*</span>
-                  </span>
-                  <input
-                    name="firmProfile"
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    className={`mt-2 ${fileInputClass}`}
-                  />
-                  <ErrorText message={firmErrors.firmProfile} />
-                </label>
-                <label className="block">
-                  <span className="text-sm font-semibold text-zinc-800">
-                    Description <span className="text-third">*</span>
-                  </span>
-                  <textarea
-                    name="description"
-                    rows={5}
-                    placeholder="Leave a message here"
-                    className={`mt-2 ${inputClass}`}
-                  />
-                  <ErrorText message={firmErrors.description} />
-                </label>
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:bg-secondary"
+              isFirmSuccess ? (
+                <div
+                  className="min-h-[510px] rounded-2xl border border-zinc-100 bg-zinc-50/80 p-6 shadow-sm sm:p-8"
+                  role="status"
+                  aria-live="polite"
                 >
-                  <Send className="h-4 w-4" aria-hidden />
-                  Send message
-                </button>
-              </form>
+                  <div className="mt-10 flex justify-center sm:mt-12">
+                    <span className="inline-flex h-20 w-20 items-center justify-center rounded-full bg-emerald-100 text-emerald-700 sm:h-24 sm:w-24">
+                      <CheckCircle2
+                        className="h-10 w-10 sm:h-12 sm:w-12"
+                        aria-hidden
+                      />
+                    </span>
+                  </div>
+                  <div className="mt-10 text-center sm:mt-12">
+                    <h3 className="text-3xl font-bold tracking-tight text-zinc-900 sm:text-4xl">
+                      Message sent!
+                    </h3>
+                    <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-zinc-700 sm:text-lg">
+                      Thank you for reaching out. We&apos;ll get back to you
+                      within 1-2 business days.
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={onFirmSubmit} className="space-y-6" noValidate>
+                  <div className="grid gap-6 sm:grid-cols-2">
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Firm name <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="firmName"
+                        type="text"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={firmErrors.firmName} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Email <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={firmErrors.email} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Contact <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="contact"
+                        type="tel"
+                        autoComplete="tel"
+                        inputMode="numeric"
+                        pattern="[0-9]{10,15}"
+                        minLength={10}
+                        maxLength={15}
+                        onInput={(e) => {
+                          e.currentTarget.value = e.currentTarget.value.replace(
+                            /\D/g,
+                            ""
+                          );
+                        }}
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={firmErrors.contact} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Number of partners <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="partners"
+                        type="number"
+                        min="0"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={firmErrors.partners} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Number of staff members <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="staff"
+                        type="number"
+                        min="0"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={firmErrors.staff} />
+                    </label>
+                    <label className="block">
+                      <span className="text-sm font-semibold text-zinc-800">
+                        Number of locations <span className="text-third">*</span>
+                      </span>
+                      <input
+                        name="locations"
+                        type="number"
+                        min="0"
+                        className={`mt-2 ${inputClass}`}
+                      />
+                      <ErrorText message={firmErrors.locations} />
+                    </label>
+                  </div>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Head office location <span className="text-third">*</span>
+                    </span>
+                    <input
+                      name="headOffice"
+                      type="text"
+                      className={`mt-2 ${inputClass}`}
+                    />
+                    <ErrorText message={firmErrors.headOffice} />
+                  </label>
+                  <label className="block">
+                    <span className="text-sm font-semibold text-zinc-800">
+                      Description <span className="text-third">*</span>
+                    </span>
+                    <textarea
+                      name="description"
+                      rows={5}
+                      placeholder="Leave a message here"
+                      className={`mt-2 ${inputClass}`}
+                    />
+                    <ErrorText message={firmErrors.description} />
+                  </label>
+                  <button
+                    type="submit"
+                    disabled={isFirmSubmitting}
+                    className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-70"
+                  >
+                    <Send className="h-4 w-4" aria-hidden />
+                    {isFirmSubmitting ? "Sending..." : "Send message"}
+                  </button>
+                  {firmResult ? (
+                    <p
+                      className={`rounded-xl border px-4 py-3 text-sm font-medium ${
+                        firmResultType === "error"
+                          ? "border-red-200 bg-red-50 text-red-700"
+                          : "border-zinc-200 bg-zinc-100 text-zinc-700"
+                      }`}
+                      role="status"
+                      aria-live="polite"
+                    >
+                      {firmResult}
+                    </p>
+                  ) : null}
+                </form>
+              )
             )}
           </div>
         </div>
