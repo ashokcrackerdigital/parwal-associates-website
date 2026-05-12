@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { CheckCircle2, Clock, Mail, MapPin, Phone, Send } from "lucide-react";
+import {
+  CheckCircle2,
+  Clock,
+  Loader2,
+  Mail,
+  MapPin,
+  Phone,
+  Send,
+} from "lucide-react";
 import {
   PA_PHOTO_HERO_IMAGE_CLASS,
   PA_PHOTO_HERO_INNER,
@@ -84,7 +92,7 @@ export default function ContactPageContent() {
     try {
       setIsSubmitting(true);
       setResultType("sending");
-      setResult("Sending...");
+      setResult("");
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
@@ -334,8 +342,12 @@ export default function ContactPageContent() {
                     disabled={isSubmitting}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-third px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-third/25 transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
                   >
+                  {isSubmitting ? (
+                    <Loader2 className="h-4 w-4 animate-spin" strokeWidth={2} aria-hidden />
+                  ) : (
                     <Send className="h-4 w-4" strokeWidth={2} aria-hidden />
-                    {isSubmitting ? "Sending..." : "Send message"}
+                  )}
+                  Send message
                   </button>
                   {result ? (
                     <p
