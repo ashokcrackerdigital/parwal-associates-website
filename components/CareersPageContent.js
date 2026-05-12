@@ -363,7 +363,7 @@ export default function CareersPageContent() {
     try {
       setIsFirmSubmitting(true);
       setFirmResultType("sending");
-      setFirmResult("Sending...");
+      setFirmResult("");
       const response = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         body: formData,
@@ -945,16 +945,16 @@ export default function CareersPageContent() {
                     disabled={isFirmSubmitting}
                     className="inline-flex items-center justify-center gap-2 rounded-xl bg-primary px-8 py-3.5 text-sm font-semibold text-white shadow-lg shadow-primary/25 transition hover:bg-secondary disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    <Send className="h-4 w-4" aria-hidden />
-                    {isFirmSubmitting ? "Sending..." : "Send message"}
+                    {isFirmSubmitting ? (
+                      <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
+                    ) : (
+                      <Send className="h-4 w-4" aria-hidden />
+                    )}
+                    Send message
                   </button>
-                  {firmResult ? (
+                  {firmResultType === "error" && firmResult ? (
                     <p
-                      className={`rounded-xl border px-4 py-3 text-sm font-medium ${
-                        firmResultType === "error"
-                          ? "border-red-200 bg-red-50 text-red-700"
-                          : "border-zinc-200 bg-zinc-100 text-zinc-700"
-                      }`}
+                      className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
                       role="status"
                       aria-live="polite"
                     >
