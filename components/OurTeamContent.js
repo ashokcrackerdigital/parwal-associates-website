@@ -170,7 +170,7 @@ export default function OurTeamContent() {
                     index % 2 === 1 ? "md:flex-row-reverse" : "",
                   ].join(" ")}
                 >
-                  <div className="relative shrink-0 bg-gradient-to-br from-primary/[0.18] to-zinc-200 md:h-auto md:w-[42%] md:max-w-xs">
+                  <div className="relative h-60 shrink-0 bg-gradient-to-br from-primary/[0.18] to-zinc-200 sm:h-64 md:h-auto md:w-[42%] md:max-w-xs">
                     {member.photo ? (
                       <Image
                         src={member.photo}
