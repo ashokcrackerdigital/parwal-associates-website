@@ -5,7 +5,7 @@ const highlightCards = [
     title: "Our Vision",
     icon: Eye,
     description:
-      "To be a trusted accounting and consultancy partner delivering excellent service and long-term value for clients and associates.",
+      "To be a trusted auditing and consultancy partner delivering excellent service and long-term value for clients and associates.",
   },
   {
     title: "Our Mission",
