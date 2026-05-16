@@ -31,13 +31,13 @@ export default function ContactCtaSection() {
             Consult Now
             <ArrowRight className="h-5 w-5" aria-hidden />
           </Link>
-          <Link
-            href="/contact"
+          <a
+            href="tel:01414006702"
             className="inline-flex w-full items-center justify-center gap-2 rounded-xl border-2 border-white bg-transparent px-8 py-3.5 text-base font-semibold text-white transition hover:bg-white/10 sm:w-auto"
           >
             <Phone className="h-5 w-5" aria-hidden />
             Schedule a Call
-          </Link>
+          </a>
         </div>
       </div>
     </section>

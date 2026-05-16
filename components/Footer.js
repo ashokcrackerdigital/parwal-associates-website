@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -40,7 +41,21 @@ const usefulLinks = [
   { label: "SEBI", href: "https://www.sebi.gov.in/" },
 ];
 
+const SCROLL_SHOW_THRESHOLD = 300;
+
 export default function Footer() {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => {
+      setShowBackToTop(window.scrollY > SCROLL_SHOW_THRESHOLD);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -185,8 +200,14 @@ export default function Footer() {
       <button
         type="button"
         onClick={scrollToTop}
-        className="fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-third text-white shadow-lg shadow-black/30 transition hover:bg-secondary"
+        className={`fixed bottom-6 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-third text-white shadow-lg shadow-black/30 transition hover:bg-secondary ${
+          showBackToTop
+            ? "pointer-events-auto translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-2 opacity-0"
+        }`}
         aria-label="Back to top"
+        aria-hidden={!showBackToTop}
+        tabIndex={showBackToTop ? 0 : -1}
       >
         <span className="text-lg font-bold leading-none">↑</span>
       </button>
